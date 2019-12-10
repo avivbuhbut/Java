@@ -1,23 +1,33 @@
+import java.util.EventListenerProxy;
+
+import com.sun.org.apache.bcel.internal.generic.ReturnInstruction;
+import com.sun.org.apache.xml.internal.security.algorithms.implementations.IntegrityHmac;
 
 public class Date {
 
+	private final int MIN_MONTH = 1;
+	private final int MIN_YEAR = 1000;
+	private final int MAX_YEAR = 9999;
 	private int int_day;
 	private int int_month;
 	private int int_year;
 
+	private final int MIN_DAY = 1;
 	final int jan = 31;
+	final int feblip = 29;
+	final int febNotLip = 28;
 	final int march = 31;
 	final int april = 30;
 	final int may = 30;
-	final int june = 30; //message from mac
-	final int july = 31; // message from pc
-	final int aug = 31; // message from pc
+	final int june = 30;
+	final int july = 31;
+	final int aug = 31;
 	final int sep = 30;
 	final int oct = 31;
 	final int nov = 30;
 	final int dec = 31;
 
-	final int[] arr = { jan, march, april, may, june, july, aug, sep, oct, nov, dec };
+	final int[] arr = { jan, feblip, march, april, may, june, july, aug, sep, oct, nov, dec };
 
 	private int check30Or31Days(int[] arr, int month) {
 
@@ -48,27 +58,25 @@ public class Date {
 
 	public Date(int day, int month, int year) {
 
-		if (day > 0 && day < 32)
-			int_day = day;
+		if (checkLegalDate(day, month, year)) {
 
-		if (month > 0 && month < 13)
-			int_month = month;
+			this.int_day = day;
+			this.int_month = month;
+			this.int_year = year;
 
-		if (year > 0 && (year / 100) < 100)
-			int_year = year;
+		} else {
 
-		/* checks for leap year and case the user enters an illegal day for February */
-		if (month == 2 && day  >28 && year % 4 == 0 || month == 2 && day > 28 && year % 4 == 1) {
 			int_day = 1;
 			int_month = 1;
 			int_year = 2000;
 		}
+
 	}
 
 	public Date(Date other) {
-		other.int_day = int_day;
-		other.int_month = int_month;
-		other.int_year = int_year;
+		this.int_day = other.int_day;
+		this.int_month = other.int_month;
+		this.int_year = other.int_year;
 
 	}
 
@@ -87,10 +95,8 @@ public class Date {
 
 	public int setDay(int dayToSet) {
 
-		if (dayToSet > 0 && dayToSet < 32) {
+		if (checkLegalDate(dayToSet, this.int_month, this.int_year))
 			int_day = dayToSet;
-			return int_day;
-		}
 
 		return int_day;
 
@@ -98,23 +104,36 @@ public class Date {
 
 	public int setMonth(int monthToSet) {
 
-		if (monthToSet > 0 && monthToSet < 13) {
+		if (checkLegalDate(this.int_day, monthToSet, this.int_year))
 			int_month = monthToSet;
-			return int_month;
-		}
 
-		return int_month;
+		return this.int_month;
 
 	}
 
 	public int setYear(int yearToSet) {
 
-		if (yearToSet > 0 && (yearToSet / 100) < 100) {
+		if (checkLegalDate(this.int_day, this.int_month, yearToSet))
 			int_year = yearToSet;
-			return int_year;
-		}
 
-		return int_year;
+		return this.int_year;
+
+	}
+
+	private boolean checkLegalDate(int day, int month, int year) {
+
+		if (month < MIN_MONTH || month > arr.length || year < MIN_YEAR || year > MAX_YEAR || day < MIN_DAY
+				|| day > arr[month - 1])
+			return false;
+
+		if (day > arr[month - 1])
+			return false;
+
+		// illegal day for not leap year
+		if (month == 2 && !(year % 4 == 0) && day > arr[2] - 1)
+			return false;
+
+		return true;
 
 	}
 
@@ -122,19 +141,10 @@ public class Date {
 		return (other.int_day == this.int_day && other.int_month == this.int_month && other.int_year == this.int_year);
 	}
 
-	/*
-	 * Date ExpieryDate = new Date(01, 02, 2020	);
-		Date CheckDate = new Date(01, 01, 2020	);
-	 */
 	public boolean before(Date other) {
 
-
-/*
-System.out.println(this.int_year+"<"+other.int_year+ " || " + this.int_year+"=="+other.int_year+ " && " + 
-		this.int_month+ " < " + other.int_month + "|| " + this.int_year + "==" +  other.int_year +" && "+
-		this.int_month+ " == " + other.int_month + " && " +this.int_day + "<" + other.int_day );*/
-		
-		return (this.int_year < other.int_year || ((this.int_year == other.int_year) && (this.int_month < other.int_month))
+		return (this.int_year < other.int_year
+				|| ((this.int_year == other.int_year) && (this.int_month < other.int_month))
 				|| ((this.int_year == other.int_year) && (this.int_month == other.int_month)
 						&& (this.int_day < other.int_day)));
 
@@ -180,75 +190,58 @@ System.out.println(this.int_year+"<"+other.int_year+ " || " + this.int_year+"=="
 		int updatedMonth = 0;
 		int updatedYear = 0;
 
-		if (this.int_day == 31) {
-			if (check30Or31Days(arr, this.int_month) == 31) {
-				if (this.int_month != 12) { // if its not dec add 1 to the current month
-					updatedMonth = this.int_month + 1; // update the month
-					updatedDay = 1;
-					updatedYear = this.int_year;
-				} else { // it means that the its the end of the year, in that case i need to update the
-							// year
-					updatedYear = this.int_year + 1;
-					updatedMonth = 1;
-					updatedDay = 1;
-				}
-			} else {
-				updatedMonth = this.int_month + 1;
-				updatedDay = 1;
-				updatedYear = this.int_year;
-
-			}
-
-		} else {
+		if (checkLegalDate(this.int_day + 1, this.int_month, this.int_year)) {
 			updatedDay = this.int_day + 1;
 			updatedMonth = this.int_month;
 			updatedYear = this.int_year;
-		}
+		} else {
 
-		// .out.println("" + updatedDay + "."+updatedMonth+ "."+updatedYear);
+			// check year
+			if (this.int_month == 12) {
+				updatedDay = MIN_DAY;
+				updatedMonth = MIN_MONTH;
+				updatedYear = this.int_year + 1;
+
+			} else {
+				updatedYear = this.int_year;
+				updatedDay = MIN_DAY;
+			}
+
+		}
 
 		Date updatedDate = new Date(updatedDay, updatedMonth, updatedYear);
 
 		return updatedDate;
 	}
-	
-	
-	public int dayInWeek() {
-	
-	     String year  = "" +getYear();
-		String first2DigYear = "" + year.charAt(1) + year.charAt(2);
-		String last2DigYear = "" + year.charAt(2) + year.charAt(3);
-		
-		int intF2DYear =  Integer.parseInt(first2DigYear);
-		int intL2DYear =  Integer.parseInt(last2DigYear);
-	     
 
-		
-		
-		//return Day = (D + (26×(M+1))/10 + Y + Y/4 + C/4 - 2×C) mod 7 =
-		int day = (this.int_day + (26*(this.int_month+1))/10 + intL2DYear + intL2DYear/4 + intF2DYear/4 + 2*intF2DYear)%7;
-		return day;
-		 
-	
-		
+	public int dayInWeek(Date date) {
+
+		int m = this.int_month;
+
+		int tempYear = this.int_year;
+
+		if (this.int_month == 1) {
+			tempYear--;
+			m = 13;
+		} else if (this.int_month == 2) {
+			tempYear--;
+			m = 14;
+		}
+		int C = tempYear / 100;
+		int Y = tempYear % 100;
+
+		return (this.int_day + (26 * (m + 1)) / 10 + Y + Y / 4 + C / 4 - 2 * C) % 7;
 
 	}
-	
-	
 
 	public static void main(String args[]) {
 
 		// every 4 years there is a 29 days in feb ,2008, 2012 , 2016, 2020
 
-		//Date date = new Date(8, 12, 2019	);
-		//System.out.p(date.toString());
-		//Date date2 = new Date(30, 8, 2015);
-	
+		Date date = new Date(30, 8, 1992);
+		// System.out.println(date.checkLegalDate(31, 12, 2000));
+		System.out.println(date.dayInWeek(date));
+		// System.out.println(2009 % 100);
 
-		//date.dayInWeek();
-		//
-		//System.out.println(total%100);
-		
-		//System.out.println(date.dayInWeek());
 	}
 }
