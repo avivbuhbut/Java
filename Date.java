@@ -10,7 +10,7 @@ public class Date {
 	final int april = 30;
 	final int may = 30;
 	final int june = 30; //message from mac
-	final int july = 31;
+	final int july = 31; // message from pc
 	final int aug = 31;
 	final int sep = 30;
 	final int oct = 31;
