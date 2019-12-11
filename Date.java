@@ -1,7 +1,6 @@
 import java.util.EventListenerProxy;
 
-import com.sun.org.apache.bcel.internal.generic.ReturnInstruction;
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.IntegrityHmac;
+
 
 public class Date {
 
@@ -184,7 +183,7 @@ public class Date {
 		return this.int_day + "/" + this.int_month + "/" + this.int_year;
 	}
 
-	public Date tommarow() {
+	public Date tomorrow() {
 
 		int updatedDay = 0;
 		int updatedMonth = 0;
@@ -236,12 +235,6 @@ public class Date {
 
 	public static void main(String args[]) {
 
-		// every 4 years there is a 29 days in feb ,2008, 2012 , 2016, 2020
-
-		Date date = new Date(30, 8, 1992);
-		// System.out.println(date.checkLegalDate(31, 12, 2000));
-		System.out.println(date.dayInWeek(date));
-		// System.out.println(2009 % 100);
 
 	}
 }
