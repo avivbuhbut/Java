@@ -1,6 +1,6 @@
 import java.util.EventListenerProxy;
 
-
+//Created by: Aviv Buhbut id: 204445084
 
 public class Date {
 
@@ -28,6 +28,16 @@ public class Date {
 
 	final int[] arr = { jan, feblip, march, april, may, june, july, aug, sep, oct, nov, dec };
 
+	/*
+	 * checks how many days there are in the month that is passed as a parameter
+	 * 
+	 * @param arr - the array of each month
+	 * 
+	 * @param month - the month needed to be checked
+	 * 
+	 * @return the days in the month that is passed as a parameter
+	 * 
+	 */
 	private int check30Or31Days(int[] arr, int month) {
 
 		if (month == arr[0])
@@ -55,6 +65,18 @@ public class Date {
 
 	}
 
+	/*
+	 * creates a new Date object if the date is valid, otherwise creates the date
+	 * 1/1/2000
+	 * 
+	 * @param day - the day in the month (1-31)
+	 * 
+	 * @param month - the month in the year (1-12)
+	 * 
+	 * @param year - the year (4 digits)
+	 * 
+	 */
+
 	public Date(int day, int month, int year) {
 
 		if (checkLegalDate(day, month, year)) {
@@ -72,6 +94,13 @@ public class Date {
 
 	}
 
+	/*
+	 * copy constructor
+	 * 
+	 * @param other - the date to be copied
+	 * 
+	 */
+
 	public Date(Date other) {
 		this.int_day = other.int_day;
 		this.int_month = other.int_month;
@@ -79,18 +108,42 @@ public class Date {
 
 	}
 
+	/*
+	 * gets the year
+	 * 
+	 * @return the year
+	 */
+
 	public int getDay() {
 
 		return int_day;
 	}
 
+	/*
+	 * gets the month
+	 * 
+	 * @return the month
+	 */
+
 	public int getMonth() {
 		return int_month;
 	}
 
+	/*
+	 * gets the year
+	 * 
+	 * @return the year
+	 */
+
 	public int getYear() {
 		return int_year;
 	}
+
+	/*
+	 * sets the day (only if date remains valid)
+	 * 
+	 * @param dayToSet - the day value to be set
+	 */
 
 	public int setDay(int dayToSet) {
 
@@ -101,6 +154,12 @@ public class Date {
 
 	}
 
+	/*
+	 * sets the month (only if date remains valid)
+	 * 
+	 * @param dayToSet - the month value to be set
+	 */
+
 	public int setMonth(int monthToSet) {
 
 		if (checkLegalDate(this.int_day, monthToSet, this.int_year))
@@ -109,6 +168,12 @@ public class Date {
 		return this.int_month;
 
 	}
+
+	/*
+	 * sets the year (only if date remains valid)
+	 * 
+	 * @param dayToSet - the year value to be set
+	 */
 
 	public int setYear(int yearToSet) {
 
@@ -140,6 +205,14 @@ public class Date {
 		return (other.int_day == this.int_day && other.int_month == this.int_month && other.int_year == this.int_year);
 	}
 
+	/*
+	 * check if this date is before other date
+	 * 
+	 * @param other - date to compare this date to
+	 * 
+	 * @return true if this date is before other date
+	 */
+
 	public boolean before(Date other) {
 
 		return (this.int_year < other.int_year
@@ -149,10 +222,25 @@ public class Date {
 
 	}
 
+	/*
+	 * check if this date is after other date
+	 * 
+	 * @param other - date to compare this date to
+	 * 
+	 * @return true if this date is after other date
+	 */
 	public boolean after(Date other) {
 		return (!before(other));
 
 	}
+
+	/*
+	 * check if 2 dates are the same
+	 * 
+	 * @param other - the date to compare this date tos
+	 * 
+	 * @return true if the dates are the same
+	 */
 
 	public int difference(Date date) {
 
@@ -169,6 +257,16 @@ public class Date {
 		return 365 * year + year / 4 - year / 100 + year / 400 + ((month + 1) * 306) / 10 + (day - 62);
 	}
 
+	/*
+	 * returns a String that represents this date
+	 * 
+	 * @Overrides toString in class java.lang.Object
+	 * 
+	 * @returns String that represents this date in the following format:
+	 * day/month/year for example: 02/03/1998
+	 * 
+	 */
+
 	@Override
 	public String toString() {
 
@@ -182,6 +280,12 @@ public class Date {
 
 		return this.int_day + "/" + this.int_month + "/" + this.int_year;
 	}
+
+	/*
+	 * calculate the date of tomorrow
+	 * 
+	 * @return the date of tomorrow
+	 */
 
 	public Date tomorrow() {
 
@@ -213,6 +317,13 @@ public class Date {
 		return updatedDate;
 	}
 
+	/*
+	 * calculate the day of the week that this date occurs on 0-Saturday 1-Sunday
+	 * 2-Monday etc.
+	 * 
+	 * 
+	 * @return the day of the week that this date occurs on
+	 */
 	public int dayInWeek(Date date) {
 
 		int m = this.int_month;
@@ -233,8 +344,4 @@ public class Date {
 
 	}
 
-	public static void main(String args[]) {
-
-
-	}
 }

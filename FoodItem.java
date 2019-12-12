@@ -13,6 +13,30 @@ public class FoodItem {
 	private final int defaultPrice = 1;
 	private final int defaultQuantity = 1;
 
+	/*
+	 * creates a new FoodItem object
+	 * 
+	 * 
+	 * 
+	 * 
+	 * @param name - name of food item
+	 * 
+	 * @param catalogueNumber - catalogue number of food item
+	 * 
+	 * @param quantity - quantity of food item
+	 * 
+	 * @param productionDate - production date
+	 * 
+	 * @param expiryDate - expiry date
+	 * 
+	 * @param minTemperature - minimum storage temperature
+	 * 
+	 * @param maxTemperature - maximum storage temperature
+	 * 
+	 * @param price - unit price
+	 * 
+	 */
+
 	public FoodItem(String name, long catalogueNumber, int quantity, Date productionDate, Date expiryDate,
 			int minTemperature, int maxTemperature, int price) {
 
@@ -24,8 +48,6 @@ public class FoodItem {
 		if (name == " ") {
 			name = "item";
 		}
-
-
 
 		if ((catalogueNumber / 100) < 1000 & (catalogueNumber / 100) < 9999)
 			catalogueNumber = 9999;
@@ -54,8 +76,12 @@ public class FoodItem {
 	}
 
 	/*
-	 * final String name; long catalogueNumber Date productionDate expiryDate int
-	 * minTemperature maxTemperature int price
+	 * check if 2 food items are the same (excluding the quantity values)
+	 * 
+	 * 
+	 * @param other - the food item to compare this food item to
+	 * 
+	 * @returns true if the food items are the same
 	 * 
 	 */
 
@@ -68,6 +94,10 @@ public class FoodItem {
 
 	/*
 	 * copy contractor
+	 * 
+	 * 
+	 * @param other - the food item to be copied
+	 * 
 	 */
 
 	public FoodItem(FoodItem other) {
@@ -75,7 +105,7 @@ public class FoodItem {
 		this.catalogueNumber = other.catalogueNumber;
 		this.quantity = other.quantity;
 		this.productionDate = other.productionDate;
-		this.expiryDate = other.expiryDate ;
+		this.expiryDate = other.expiryDate;
 		this.minTemperature = other.minTemperature;
 		this.maxTemperature = other.maxTemperature;
 		this.price = other.price;
@@ -102,8 +132,8 @@ public class FoodItem {
 
 		int canBuy = amount / this.price;
 
-		if (canBuy > this.quantity) 
-			return Math.abs((canBuy-this.quantity)- canBuy );
+		if (canBuy > this.quantity)
+			return Math.abs((canBuy - this.quantity) - canBuy);
 		else
 			return canBuy;
 
@@ -113,9 +143,26 @@ public class FoodItem {
 		return this.price < other.price;
 	}
 
+	/*
+	 * gets the catalogue number
+	 * 
+	 * @returns the catalogue number
+	 * 
+	 */
+
 	long getCatalogueNumber() {
 		return this.catalogueNumber;
 	}
+	
+	
+	/*
+	 * 
+	 * 
+	 *gets the name
+	 * 
+	 * @returns the name
+	 * 
+	 */
 
 	public String getName() {
 		return this.name;
@@ -124,6 +171,16 @@ public class FoodItem {
 	public int getQuantity() {
 		return this.quantity;
 	}
+	
+	/*
+	 * 
+	 * 
+	 *gets the production date
+	 * 
+	 * @returns the production date
+	 * 
+	 */
+	
 
 	Date getProductionDate() {
 		return this.productionDate;
@@ -133,14 +190,42 @@ public class FoodItem {
 		return this.expiryDate;
 	}
 
+	
+	/*
+	 * 
+	 * 
+	 *gets the minimum storage temperature
+	 * 
+	 * @returns the minimum storage temperature
+	 * 
+	 */
+	
 	public int getMinTemperature() {
 		return this.minTemperature;
 	}
+
+	/*
+	 * 
+	 * 
+	 * gets the maximum storage temperature
+	 * 
+	 * @returns the maximum storage temperature
+	 * 
+	 */
 
 	public int getMaxTemperature() {
 		return this.maxTemperature;
 	}
 
+	/*
+	 * 
+	 * 
+	 *gets the unit price
+	 * 
+	 * @returns the  units price
+	 * 
+	 */
+	
 	public int getPrice() {
 		return this.price;
 	}
@@ -159,8 +244,8 @@ public class FoodItem {
 	public void setExpiryDate(Date d) {
 		this.expiryDate = new Date(d);
 
-		//if (this.expiryDate.before(this.productionDate))
-			//this.expiryDate = this.productionDate.tomorrow();
+		// if (this.expiryDate.before(this.productionDate))
+		// this.expiryDate = this.productionDate.tomorrow();
 	}
 
 	public void setPrice(int n) {
@@ -168,51 +253,6 @@ public class FoodItem {
 			price = defaultPrice;
 
 		this.price = n;
-	}
-
-	public static void main(String args[]) {
-
-		System.out.println("********** Test FoodItem - Started **********");
-		System.out.println("\n1. Testing Constructors and toString:");
-		Date d1 = new Date(14, 12, 2019);
-		Date d2 = new Date(21, 12, 2019);
-		// test concstructor which takes 8 parameters
-		FoodItem fi1 = new FoodItem(new String("milk"), 111111, 6, d1, d2, 10, 25, 5);
-		System.out.println("\tFoodItem 1:\n\t" + fi1);
-		// test copy concstructor
-		FoodItem fi2 = new FoodItem(fi1);
-		System.out.println("\tFoodItem 2:\n\t" + fi2);
-		System.out.println("\n2. Testing accessors and mutators:");
-		// test getters
-		System.out.println("\tFoodItem 1 name: " + fi1.getName());
-		System.out.println("\tFoodItem 1 catalogue number: " + fi1.getCatalogueNumber());
-		System.out.println("\tFoodItem 1 quantity: " + fi1.getQuantity());
-		System.out.println("\tFoodItem 1 production date: " + fi1.getProductionDate());
-		System.out.println("\tFoodItem 1 expiry date: " + fi1.getExpiryDate());
-		System.out.println("\tFoodItem 1 min temperature: " + fi1.getMinTemperature());
-		System.out.println("\tFoodItem 1 max temperature: " + fi1.getMaxTemperature());
-		System.out.println("\tFoodItem 1 price: " + fi1.getPrice());
-
-		// test setters
-		fi2.setQuantity(4);
-		Date d3 = new Date(18, 12, 2019);
-		Date d4 = new Date(28, 12, 2019);
-		fi2.setProductionDate(d3);
-		fi2.setExpiryDate(d4);
-		fi2.setPrice(2);
-		System.out.println("\tFoodItem 2:\n\t" + fi2);
-		
-		System.out.println("\n3. Testing comparison methods:");
-		FoodItem fi3 = new FoodItem(new String("milk"), 111111, 6, d1, d2, 10, 25, 5);
-		System.out.println("\tFoodItem 1 and FoodItem 3 are equal: " + fi1.equals(fi3));
-		System.out.println("\tFoodItem 1 is older than FoodItem 2: " + fi1.olderFoodItem(fi2));
-		System.out.println("\tFoodItem 1 is fresh at " + d3 + " : " + fi1.isFresh(d3));
-		System.out.println("\tFoodItem 1 is cheaper than FoodItem 2: " + fi1.isCheaper(fi2));
-		System.out.println("\n4. Testing howManyItems method :");
-		int amount = 10;
-		System.out.println("\t" + amount + " sheqels can buy " + fi1.howManyItems(amount) + " of FoodItem 1");
-		System.out.println("\t" + amount + " sheqels can buy " + fi2.howManyItems(amount) + " of FoodItem 2");
-
 	}
 
 }
