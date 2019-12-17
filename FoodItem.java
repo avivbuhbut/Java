@@ -48,7 +48,7 @@ public class FoodItem {
 			name = "item";
 		}
 
-		if ((catalogueNumber / 100) < 1000 & (catalogueNumber / 100) < 9999)
+		if ((catalogueNumber / 100) > 1000 & (catalogueNumber / 100) < 9999)
 			catalogueNumber = 9999;
 
 		if (quantity < 0)
