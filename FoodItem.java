@@ -1,5 +1,7 @@
 
 public class FoodItem {
+	
+	//Created by: Aviv Buhbut id: 204445084
 
 	private String name;
 	private long catalogueNumber;
@@ -13,34 +15,31 @@ public class FoodItem {
 	private final int defaultPrice = 1;
 	private final int defaultQuantity = 1;
 
-	/*
+	/**
 	 * creates a new FoodItem object
 	 * 
+	 * @param name
+	 *            - name of food item
+	 * @param catalogueNumber
+	 *            - catalogue number of food item
+	 * @param quantity
+	 *            - quantity food item
+	 * @param productionDate
+	 *            - production date
+	 * @param expiryDate
+	 *            - expiry date
+	 * @param minTemperature
+	 *            - minimum storage temperature
+	 * @param maxTemperature
+	 *            - maximum storage temperature
+	 * @param price
+	 *            - unit price
 	 * 
-	 * 
-	 * 
-	 * @param name - name of food item
-	 * 
-	 * @param catalogueNumber - catalogue number of food item
-	 * 
-	 * @param quantity - quantity of food item
-	 * 
-	 * @param productionDate - production date
-	 * 
-	 * @param expiryDate - expiry date
-	 * 
-	 * @param minTemperature - minimum storage temperature
-	 * 
-	 * @param maxTemperature - maximum storage temperature
-	 * 
-	 * @param price - unit price
 	 * 
 	 */
 
 	public FoodItem(String name, long catalogueNumber, int quantity, Date productionDate, Date expiryDate,
 			int minTemperature, int maxTemperature, int price) {
-
-		// if the product expirey date is before the production date than change it
 
 		if (minTemperature > maxTemperature)
 			maxTemperature = minTemperature;
@@ -75,14 +74,12 @@ public class FoodItem {
 
 	}
 
-	/*
+	/**
 	 * check if 2 food items are the same (excluding the quantity values)
 	 * 
-	 * 
-	 * @param other - the food item to compare this food item to
-	 * 
-	 * @returns true if the food items are the same
-	 * 
+	 * @param other
+	 *            - the food item to compare this food item to
+	 * @return true if the food items are the same
 	 */
 
 	public boolean equals(FoodItem other) {
@@ -92,12 +89,11 @@ public class FoodItem {
 				&& this.price == other.price);
 	}
 
-	/*
+	/**
 	 * copy contractor
 	 * 
-	 * 
-	 * @param other - the food item to be copied
-	 * 
+	 * @param other
+	 *            - the food item to be copied
 	 */
 
 	public FoodItem(FoodItem other) {
@@ -112,17 +108,40 @@ public class FoodItem {
 
 	}
 
+	/**
+	 * check if this food item is older than other food item
+	 * 
+	 * @param other
+	 *            - food item to compare this food item to
+	 * @return true if this food item is older than other date
+	 */
+
 	public boolean isFresh(Date d) {
 		return (this.expiryDate.after(d));
 	}
 
+	/**
+	 * @Overrides toString in class java.lang.Object
+	 * 
+	 * @returns String that represents this food item in the following format:
+	 *          FoodItem: milk CatalogueNumber: 1234 ProductionDate: 14/12/2019
+	 *          ExpiryDate: 21/12/2019 Quantity: 3
+	 * 
+	 */
+
 	public String toString() {
-		/*
-		 * F date
-		 */
+
 		return "FoodItem: " + this.name + "\tCatalogueNumber: " + this.catalogueNumber + "\tProductionDate: "
 				+ this.productionDate + "\tExpiryDate: " + this.expiryDate + "\tQuantity: " + this.quantity;
 	}
+
+	/**
+	 * check if this food item is older than other food item
+	 * 
+	 * @param other
+	 *            - food item to compare this food item to
+	 * @return true if this food item is older than other date
+	 */
 
 	public boolean olderFoodItem(FoodItem other) {
 		return !(this.productionDate.before(other.productionDate));
@@ -139,77 +158,85 @@ public class FoodItem {
 
 	}
 
+	/**
+	 * check if this food item is cheaper than other food item
+	 * 
+	 * @param other
+	 *            - food item to compare this food item to
+	 * @return true if this food item is cheaper than other date
+	 */
 	public boolean isCheaper(FoodItem other) {
 		return this.price < other.price;
 	}
 
-	/*
+	/**
 	 * gets the catalogue number
 	 * 
-	 * @returns the catalogue number
-	 * 
+	 * @return the catalogue number
 	 */
 
 	long getCatalogueNumber() {
 		return this.catalogueNumber;
 	}
-	
-	
-	/*
+
+	/**
+	 * gets the name
 	 * 
-	 * 
-	 *gets the name
-	 * 
-	 * @returns the name
-	 * 
+	 * @return the name
 	 */
 
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+	 * gets the quantity
+	 * 
+	 * @return the quantity
+	 * 
+	 */
+
 	public int getQuantity() {
 		return this.quantity;
 	}
-	
-	/*
+
+	/**
+	 * gets the production date
 	 * 
-	 * 
-	 *gets the production date
-	 * 
-	 * @returns the production date
+	 * @return the production date
 	 * 
 	 */
-	
 
 	Date getProductionDate() {
 		return this.productionDate;
 	}
 
+	/**
+	 * gets the expiry date
+	 * 
+	 * @return the expiry date
+	 * 
+	 */
+
 	Date getExpiryDate() {
 		return this.expiryDate;
 	}
 
-	
-	/*
+	/**
+	 * gets the minimum storage temperature
 	 * 
-	 * 
-	 *gets the minimum storage temperature
-	 * 
-	 * @returns the minimum storage temperature
+	 * @return the minimum storage temperature
 	 * 
 	 */
-	
+
 	public int getMinTemperature() {
 		return this.minTemperature;
 	}
 
-	/*
-	 * 
-	 * 
+	/**
 	 * gets the maximum storage temperature
 	 * 
-	 * @returns the maximum storage temperature
+	 * @return the maximum storage temperature
 	 * 
 	 */
 
@@ -217,18 +244,24 @@ public class FoodItem {
 		return this.maxTemperature;
 	}
 
-	/*
+	/**
+	 * gets the unit price
 	 * 
-	 * 
-	 *gets the unit price
-	 * 
-	 * @returns the  units price
+	 * @return the units price
 	 * 
 	 */
-	
+
 	public int getPrice() {
 		return this.price;
 	}
+
+	/**
+	 * set the quantity (only if not negative)
+	 * 
+	 * @param n
+	 *            - the quantity value to be set
+	 * 
+	 */
 
 	public void setQuantity(int n) {
 		if (quantity < 0)
@@ -237,9 +270,25 @@ public class FoodItem {
 		this.quantity = n;
 	}
 
+	/**
+	 * set the production date (only if not after expiry date )
+	 * 
+	 * @param d
+	 *            - production date value to be set
+	 * 
+	 */
 	public void setProductionDate(Date d) {
 		this.productionDate = d;
 	}
+
+	/**
+	 * set the expiry date (only if not before production date )
+	 * 
+	 * @param d
+	 *            - expiry date value to be set
+	 * 
+	 * 
+	 */
 
 	public void setExpiryDate(Date d) {
 		this.expiryDate = new Date(d);
@@ -247,6 +296,15 @@ public class FoodItem {
 		// if (this.expiryDate.before(this.productionDate))
 		// this.expiryDate = this.productionDate.tomorrow();
 	}
+
+	/**
+	 * set the price (only if positive)
+	 * 
+	 * @param n
+	 *            - price value to be set
+	 * 
+	 * 
+	 */
 
 	public void setPrice(int n) {
 		if (price < 0)

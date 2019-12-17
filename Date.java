@@ -28,16 +28,16 @@ public class Date {
 
 	final int[] arr = { jan, feblip, march, april, may, june, july, aug, sep, oct, nov, dec };
 
-	/*
+	
+	/**
 	 * checks how many days there are in the month that is passed as a parameter
 	 * 
 	 * @param arr - the array of each month
-	 * 
 	 * @param month - the month needed to be checked
 	 * 
 	 * @return the days in the month that is passed as a parameter
-	 * 
 	 */
+	
 	private int check30Or31Days(int[] arr, int month) {
 
 		if (month == arr[0])
@@ -65,18 +65,18 @@ public class Date {
 
 	}
 
-	/*
-	 * creates a new Date object if the date is valid, otherwise creates the date
-	 * 1/1/2000
+
+
+	
+	/**
+	 * creates a new Date object if the date is valid, otherwise creates the date 1/1/2000
 	 * 
 	 * @param day - the day in the month (1-31)
-	 * 
 	 * @param month - the month in the year (1-12)
-	 * 
-	 * @param year - the year (4 digits)
+	 * @param  year - the year (4 digits)
 	 * 
 	 */
-
+	
 	public Date(int day, int month, int year) {
 
 		if (checkLegalDate(day, month, year)) {
@@ -94,7 +94,8 @@ public class Date {
 
 	}
 
-	/*
+
+	/**
 	 * copy constructor
 	 * 
 	 * @param other - the date to be copied
@@ -108,10 +109,13 @@ public class Date {
 
 	}
 
-	/*
-	 * gets the year
+
+	
+	/**
+	 *  gets the year
 	 * 
-	 * @return the year
+	 * @return the day
+	 * 
 	 */
 
 	public int getDay() {
@@ -119,30 +123,38 @@ public class Date {
 		return int_day;
 	}
 
-	/*
-	 * gets the month
+
+	/**
+	 *  gets the month
 	 * 
 	 * @return the month
+	 * 
 	 */
+
 
 	public int getMonth() {
 		return int_month;
 	}
 
-	/*
-	 * gets the year
+	
+	/**
+	 *  gets the year
 	 * 
 	 * @return the year
+	 * 
 	 */
 
 	public int getYear() {
 		return int_year;
 	}
 
-	/*
-	 * sets the day (only if date remains valid)
+	
+	
+	/**
+	 *  sets the day (only if date remains valid)
 	 * 
 	 * @param dayToSet - the day value to be set
+	 * 
 	 */
 
 	public int setDay(int dayToSet) {
@@ -154,12 +166,15 @@ public class Date {
 
 	}
 
-	/*
-	 * sets the month (only if date remains valid)
+	
+	/**
+	 *  sets the month (only if date remains valid)
 	 * 
-	 * @param dayToSet - the month value to be set
+	 * @param setMonth - the month value to be set
+	 * 
 	 */
-
+	
+	
 	public int setMonth(int monthToSet) {
 
 		if (checkLegalDate(this.int_day, monthToSet, this.int_year))
@@ -169,12 +184,15 @@ public class Date {
 
 	}
 
-	/*
-	 * sets the year (only if date remains valid)
-	 * 
-	 * @param dayToSet - the year value to be set
-	 */
 
+
+	/**
+	 *  sets the year (only if date remains valid)
+	 * 
+	 * @param setYear - the year value to be set
+	 * 
+	 */
+	
 	public int setYear(int yearToSet) {
 
 		if (checkLegalDate(this.int_day, this.int_month, yearToSet))
@@ -183,6 +201,17 @@ public class Date {
 		return this.int_year;
 
 	}
+	
+	/**
+	 *  checks if the date is legal
+	 * 
+	 * @param day - the day to check
+     * @param month - the month to check
+	 * @param year - the year to check
+	 * 
+	 * @return true if the date is legal
+	 * 
+	 */
 
 	private boolean checkLegalDate(int day, int month, int year) {
 
@@ -200,19 +229,28 @@ public class Date {
 		return true;
 
 	}
+	/**
+	 *  check if 2 dates are the same
+	 * @param other - the date to compare this date to
+	 * 
+	 * @return true if the dates are the same
+	 * 
+	 */
+	
 
 	public boolean equals(Date other) {
 		return (other.int_day == this.int_day && other.int_month == this.int_month && other.int_year == this.int_year);
 	}
 
-	/*
-	 * check if this date is before other date
-	 * 
+	
+	
+	/**
+	 *  check if this date is before other date
 	 * @param other - date to compare this date to
 	 * 
 	 * @return true if this date is before other date
+	 * 
 	 */
-
 	public boolean before(Date other) {
 
 		return (this.int_year < other.int_year
@@ -222,32 +260,48 @@ public class Date {
 
 	}
 
-	/*
-	 * check if this date is after other date
-	 * 
+
+
+	/**
+	 *  check if this date is after other date
 	 * @param other - date to compare this date to
 	 * 
 	 * @return true if this date is after other date
+	 * 
 	 */
 	public boolean after(Date other) {
 		return (!before(other));
 
 	}
 
-	/*
-	 * check if 2 dates are the same
-	 * 
+
+
+	/**
+	 *  check if 2 dates are the same
 	 * @param other - the date to compare this date tos
 	 * 
 	 * @return true if the dates are the same
+	 * 
 	 */
-
+	
+	
 	public int difference(Date date) {
 
 		return Math.abs(calculateDate(this.int_day, this.int_month, this.int_year)
 				- calculateDate(date.int_day, date.int_month, date.int_year));
 
 	}
+	
+	
+
+	/**
+	 *  check if 2 dates are the same
+	 * @param day - the day of the date to calculate
+	 * @param month - the month of the date to calculate
+	 * @param year - the year of the date to calculate
+	 * 
+	 * 
+	 */
 
 	private int calculateDate(int day, int month, int year) {
 		if (month < 3) {
@@ -262,8 +316,15 @@ public class Date {
 	 * 
 	 * @Overrides toString in class java.lang.Object
 	 * 
-	 * @returns String that represents this date in the following format:
-	 * day/month/year for example: 02/03/1998
+	 * @returns String that represents this date in the following format: day/month/year for example: 02/03/1998
+	 * 
+	 */
+	
+	/**
+	 *  returns a String that represents this date
+	 * @Overrides toString in class java.lang.Object
+	 * @return String that represents this date in the following format: day/month/year for example: 02/03/1998
+	 * 
 	 * 
 	 */
 
@@ -285,6 +346,13 @@ public class Date {
 	 * calculate the date of tomorrow
 	 * 
 	 * @return the date of tomorrow
+	 */
+	
+	/**
+	 *  calculate the date of tomorrow
+	 * @returnowing the date of tomorrow
+	 * 
+	 * 
 	 */
 
 	public Date tomorrow() {
@@ -317,13 +385,14 @@ public class Date {
 		return updatedDate;
 	}
 
-	/*
-	 * calculate the day of the week that this date occurs on 0-Saturday 1-Sunday
-	 * 2-Monday etc.
-	 * 
-	 * 
+
+	/**
+	 *  calculate the day of the week that this date occurs on 0-Saturday 1-Sunday 2-Monday etc.
 	 * @return the day of the week that this date occurs on
+	 * 
+	 * 
 	 */
+	
 	public int dayInWeek(Date date) {
 
 		int m = this.int_month;
