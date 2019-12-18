@@ -117,7 +117,7 @@ public class Stock {
 		// if the product quantity in stock is bigger or equal to the amount to dont add
 		// it to the list
 		// other wise add it
-		int SumSameProductQuan = 0;
+
 		String order = " ";
 
 		for (int i = 0; i < _noOfItems; i++) {
@@ -127,7 +127,7 @@ public class Stock {
 				int k = 0;
 				
 				// checking for duplication
-				SumSameProductQuan=  samProQuan(amount);
+				order=  getList(amount,order );
 
 				if (_stock[i].getQuantity() < amount)
 					order += _stock[i].getName() + ",";
@@ -142,26 +142,37 @@ public class Stock {
 
 	}
 	
-	private int samProQuan(int amount , String order) {
-		int k =0;nm
+	private String getList(int amount , String order) {
+		int k =0;
 		int sameProductsQuantity = 0;
+		int flagFound =0;
 		for (int j = 0; j < _noOfItems - 1; j++) {
 
 			if (_stock[j].getName().equals(_stock[j + 1].getName())  && (_stock[j].getQuantity() + _stock[j+1].getQuantity()) < amount ) { // if there are a few items with the same name i
-				order += _stock[j].getName() + ",";
+				
+			
 				
 				while (k != _noOfItems - 1) {
 					if (_stock[j + 1].getName().equals(_stock[k].getName()) && (_stock[j].getQuantity() + _stock[j+1].getQuantity()) < amount) {
 						sameProductsQuantity = _stock[j + 1].getQuantity() + _stock[k].getQuantity();
+						flagFound =1;
 					}
 					k++;
+					
+					if(k == _noOfItems-1 && flagFound==1)
+						order += _stock[j].getName() + ",";
 				}
+					if(flagFound==0)
+						order += _stock[j].getName() + ",";
+					
 				k = j + 1;
 			}
+			if (_stock[j].getQuantity() < amount)
+				order += _stock[j].getName() + ",";
 			
-			if(_stock[j].getQuantity())
+		
 		}
-		return sameProductsQuantity; 
+		return order; 
 	}
 
 	/*
