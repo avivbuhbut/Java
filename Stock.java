@@ -125,9 +125,9 @@ public class Stock {
 
 			if (i < _noOfItems - 1) {
 				int k = 0;
-				
+
 				// checking for duplication
-				order=  getList(amount,order );
+				order = getList(amount, order);
 
 				if (_stock[i].getQuantity() < amount)
 					order += _stock[i].getName() + ",";
@@ -141,38 +141,37 @@ public class Stock {
 		return "";
 
 	}
-	
-	private String getList(int amount , String order) {
-		int k =0;
-		int sameProductsQuantity = 0;
-		int flagFound =0;
-		for (int j = 0; j < _noOfItems - 1; j++) {
 
-			if (_stock[j].getName().equals(_stock[j + 1].getName())  && (_stock[j].getQuantity() + _stock[j+1].getQuantity()) < amount ) { // if there are a few items with the same name i
-				
-			
-				
-				while (k != _noOfItems - 1) {
-					if (_stock[j + 1].getName().equals(_stock[k].getName()) && (_stock[j].getQuantity() + _stock[j+1].getQuantity()) < amount) {
-						sameProductsQuantity = _stock[j + 1].getQuantity() + _stock[k].getQuantity();
-						flagFound =1;
-					}
-					k++;
-					
-					if(k == _noOfItems-1 && flagFound==1)
-						order += _stock[j].getName() + ",";
-				}
-					if(flagFound==0)
-						order += _stock[j].getName() + ",";
-					
+	private String getList(int amount, String order) {
+		int k = 0;
+		int sameProductsQuantity;
+
+		for (int j = 0; j < _noOfItems - 1; j++) {
+			sameProductsQuantity = _stock[j].getQuantity();
+
+			if (_stock[j].getName().equals(_stock[j + 1].getName())
+					&& (_stock[j].getQuantity() + _stock[j + 1].getQuantity()) < amount) { // if there are a few items
+																							// with the same name i
 				k = j + 1;
+				// sameProductsQuantity = _stock[j].getQuantity() + _stock[k].getQuantity() ;
+				sameProductsQuantity = _stock[k].getQuantity();
+
+				while (k < _noOfItems && _stock[k].getName().equals(_stock[j].getName())) {
+
+					if (_stock[k].getName().equals(_stock[k + 1].getName())
+							&& (sameProductsQuantity + _stock[k + 1].getQuantity()) < amount)
+						sameProductsQuantity += _stock[k + 1].getQuantity();
+
+					k++;
+
+				}
+				// if (_stock[j].getQuantity() < amount)
+				if (sameProductsQuantity < amount)
+					order += _stock[j].getName() + ",";
+
 			}
-			if (_stock[j].getQuantity() < amount)
-				order += _stock[j].getName() + ",";
-			
-		
+			return order;
 		}
-		return order; 
 	}
 
 	/*
@@ -235,7 +234,7 @@ public class Stock {
 		// System.out.println("******\nadding food2");
 		stock.addItem(food2);
 		stock.addItem(food1);
-//		System.out.println("after adding : " +_stock[0].toString());
+		// System.out.println("after adding : " +_stock[0].toString());
 		// System.out.println("_num of items before adding FOOD3:
 		// "+stock.getNumOfItems());
 		stock.addItem(food3);
