@@ -1,7 +1,4 @@
-import com.sun.jndi.url.iiopname.iiopnameURLContextFactory;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 
-import sun.security.action.GetBooleanAction;
 
 public class Stock {
 
@@ -32,16 +29,16 @@ public class Stock {
 	 * @return 0 for same name,barcode but different expirey date and production
 	 *         date
 	 */
-	private int checkProductsValues(FoodItem newitem, int i) {
+	private boolean checkIfItemExist(FoodItem newitem, int i) {
 		// System.out.println(_stock[i].getName());
 		if (_stock[i].getName().equals(newitem.getName())
 				&& _stock[i].getCatalogueNumber() == newitem.getCatalogueNumber()
 				&& _stock[i].getExpiryDate().equals(newitem.getExpiryDate())
 				&& _stock[i].getProductionDate().equals(newitem.getProductionDate()))
-			return 1;
+			return true;
 
 		else
-			return 0;
+			return false;
 
 	}
 
@@ -50,6 +47,14 @@ public class Stock {
 
 		for (int i = 0; i < _stock.length; i++) {
 			// System.out.println(i);
+			
+			if(_stock.length > 1) {
+				 if(checkIfItemExist(newitem, i)) {
+					newitem.setQuantity(_stock[i].getQuantity() + newitem.getQuantity()); 
+				 }
+				 
+			}
+			
 			if (_stock[i] == null) {			
 				_stock[i] = new FoodItem(newitem);
 				System.out.println(_stock[i].toString());
@@ -61,7 +66,7 @@ public class Stock {
 			
 		}
 
-		return checkIfItemExist(newitem);
+		return false;
 
 	}
 	/*
@@ -70,7 +75,8 @@ public class Stock {
 	 * free space in the array to put the newitem than the method additem didnt work
 	 * and it will return false
 	 */
-
+	
+	/*
 	private boolean checkIfItemExist(FoodItem newitem) {
 
 		int k = 0;
@@ -98,7 +104,7 @@ public class Stock {
 
 		}
 		return false;
-	}
+	}*/
 
 	@Override
 	public String toString() {

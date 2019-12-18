@@ -283,7 +283,7 @@ public class FoodItem {
 
 	/**
 	 * set the expiry date (only if not before production date )
-	 * 
+	 * s
 	 * @param d
 	 *            - expiry date value to be set
 	 * 
