@@ -92,9 +92,7 @@ public class Stock {
 	private void moveForward(int index) {
 
 		for (int i = _noOfItems; i > index; i--) {
-			System.out.println(i);
-			// System.out.println("_stock[i] " +_stock[i].getName());
-			// System.out.println("_stock[i+1] " +_stock[i+1].getName());
+
 			_stock[i] = _stock[i - 1];
 
 		}
@@ -118,27 +116,10 @@ public class Stock {
 		// it to the list
 		// other wise add it
 
-		String order = " ";
+		String order = "";
 
-		for (int i = 0; i < _noOfItems; i++) {
-			System.out.println(_stock[i].getQuantity());
-
-			if (i < _noOfItems - 1) {
-				int k = 0;
-
-				// checking for duplication
-				order = getList(amount, order);
-
-				if (_stock[i].getQuantity() < amount)
-					order += _stock[i].getName() + ",";
-			} else
-				order += _stock[i].getName();
-
-		}
-
-		System.out.println(order);
-
-		return "";
+		// checking for duplication
+		return getList(amount, order);
 
 	}
 
@@ -151,27 +132,38 @@ public class Stock {
 
 			if (_stock[j].getName().equals(_stock[j + 1].getName())
 					&& (_stock[j].getQuantity() + _stock[j + 1].getQuantity()) < amount) { // if there are a few items
-																							// with the same name i
+				// with the same name i
+
 				k = j + 1;
 				// sameProductsQuantity = _stock[j].getQuantity() + _stock[k].getQuantity() ;
 				sameProductsQuantity = _stock[k].getQuantity();
 
-				while (k < _noOfItems && _stock[k].getName().equals(_stock[j].getName())) {
+				if (_stock[k].getName().equals(_stock[k + 1].getName())) {
+					while (k < _noOfItems && _stock[k].getName().equals(_stock[k + 1].getName())) {
 
-					if (_stock[k].getName().equals(_stock[k + 1].getName())
-							&& (sameProductsQuantity + _stock[k + 1].getQuantity()) < amount)
-						sameProductsQuantity += _stock[k + 1].getQuantity();
+						if (_stock[k].getName().equals(_stock[k + 1].getName())
+								&& (sameProductsQuantity + _stock[k + 1].getQuantity()) < amount)
+							sameProductsQuantity += _stock[k + 1].getQuantity();
+						// System.out.println(k);
+						k++;
 
-					k++;
+					}
 
 				}
+				else {
 				// if (_stock[j].getQuantity() < amount)
 				if (sameProductsQuantity < amount)
-					order += _stock[j].getName() + ",";
+					order += _stock[k].getName() + ",";
+				}
 
 			}
-			return order;
+
+			
+			if (sameProductsQuantity < amount)
+				order += _stock[j].getName() + ",";
+
 		}
+		return order;
 	}
 
 	/*
@@ -202,6 +194,38 @@ public class Stock {
 	 * 
 	 * } return false; }
 	 */
+	
+	
+	public 	int howMany(int temp) {
+		int numOfItmToTranfer = 0;
+		
+		for(int i =0 ; i < _noOfItems; i++) {
+			if(_stock[i].getMaxTemperature() < temp)
+				numOfItmToTranfer += _stock[i].getQuantity();
+		}
+		
+		return numOfItmToTranfer;
+	}
+	
+	
+	
+	
+	
+	
+	public void removeAfterDate (Date d) {
+		
+		for(int i=0; i<_noOfItems; i++) {
+			if(_stock[i].getExpiryDate().before(d))
+					for(int j=i; j<_noOfItems-1 ; j++) {
+						System.out.println(_stock[j].getName()+ "is going to be override by:" + _stock[j+1].getName());
+						_stock[j] = _stock[j+1];
+						System.out.println(j);
+					//	_stock[j] = null;
+					}
+		}
+		
+	}
+	
 
 	@Override
 	public String toString() {
@@ -213,6 +237,9 @@ public class Stock {
 
 		return _stock[i].toString();
 	}
+	
+	
+	
 
 	public static void main(String[] args) {
 		Stock stock = new Stock();
@@ -226,23 +253,29 @@ public class Stock {
 		FoodItem food2 = new FoodItem("Chreios", 1234, 1, DIFF_productionDate, DIFF_expiryDate, 0, 20, 50);
 		// System.out.println(food1.toString());
 		FoodItem food3 = new FoodItem("dog", 4321, 1, DIFF_productionDate, DIFF_expiryDate, 0, 20, 50);
+		FoodItem food4 = new FoodItem("cat", 4321, 1, DIFF_productionDate, DIFF_expiryDate, 0, 20, 50);
 		// System.out.println(stock.addItem(food1));
 		// System.out.println("******\nadding food1");
-		stock.addItem(food1);
 		stock.addItem(food1);
 
 		// System.out.println("******\nadding food2");
 		stock.addItem(food2);
-		stock.addItem(food1);
-		// System.out.println("after adding : " +_stock[0].toString());
-		// System.out.println("_num of items before adding FOOD3:
-		// "+stock.getNumOfItems());
 		stock.addItem(food3);
-		System.out.println(stock.toString());
 
-		stock.order(10);
-		// stock.addItem(food2);
-		// stock.toString();
-		// stock.addItem(food2);
+		stock.addItem(food4);
+		System.out.println(stock.toString());
+	
+System.out.println("how many: " + stock.howMany(30));
+		System.out.println(stock.order(10));
+		
+		Date TodaysDate = new Date(8, 10, 2002);
+		stock.removeAfterDate(TodaysDate);
+		
+		System.out.println(stock.toString());
+		
+		
+		
+		
+
 	}
 }
