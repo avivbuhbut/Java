@@ -1,5 +1,9 @@
+import com.sun.istack.internal.FragmentContentHandler;
 import com.sun.jmx.remote.util.OrderClassLoaders;
 import com.sun.org.apache.bcel.internal.generic.IUSHR;
+import com.sun.org.apache.xml.internal.security.algorithms.implementations.IntegrityHmac;
+
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 public class Stock {
 
@@ -149,16 +153,14 @@ public class Stock {
 
 					}
 
-				}
-				else {
-				// if (_stock[j].getQuantity() < amount)
-				if (sameProductsQuantity < amount)
-					order += _stock[k].getName() + ",";
+				} else {
+					// if (_stock[j].getQuantity() < amount)
+					if (sameProductsQuantity < amount)
+						order += _stock[k].getName() + ",";
 				}
 
 			}
 
-			
 			if (sameProductsQuantity < amount)
 				order += _stock[j].getName() + ",";
 
@@ -194,52 +196,88 @@ public class Stock {
 	 * 
 	 * } return false; }
 	 */
-	
-	
-	public 	int howMany(int temp) {
+
+	public int howMany(int temp) {
 		int numOfItmToTranfer = 0;
-		
-		for(int i =0 ; i < _noOfItems; i++) {
-			if(_stock[i].getMaxTemperature() < temp)
+
+		for (int i = 0; i < _noOfItems; i++) {
+			if (_stock[i].getMaxTemperature() < temp)
 				numOfItmToTranfer += _stock[i].getQuantity();
 		}
-		
+
 		return numOfItmToTranfer;
 	}
-	
-	
-	
-	
-	
-	
-	public void removeAfterDate (Date d) {
-		
-		for(int i=0; i<_noOfItems; i++) {
-			if(_stock[i].getExpiryDate().before(d))
-					for(int j=i; j<_noOfItems-1 ; j++) {
-						System.out.println(_stock[j].getName()+ "is going to be override by:" + _stock[j+1].getName());
-						_stock[j] = _stock[j+1];
-						System.out.println(j);
-					//	_stock[j] = null;
+
+	/**
+	 * problems: removing items from the array but duplicates the last name in the
+	 * array to all of the other names
+	 * 
+	 */
+	public void removeAfterDate(Date d) {
+
+		for (int i = _noOfItems - 1; i >= 0; i--) {
+
+			if (_stock[i].getExpiryDate().before(d)) {
+				System.out.println("if: " + _stock[i].getName() + " expiry date: " + _stock[i].getExpiryDate()
+						+ "before : " + d.toString());
+				for (int j = _noOfItems - 1; j >= i; j--) {
+
+					if (j < 1) {
+						_stock[j] = null;
+						break;
 					}
+					System.out.println(j);
+
+					_stock[j - 1] = _stock[j];
+					System.out.println(j);
+
+				}
+				_noOfItems--;
+				_stock[_noOfItems + 1] = null;
+
+			}
 		}
-		
+
 	}
-	
 
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		int i = 0;
+		if (_noOfItems < 1)
+			return "out of stock";
+
+		System.out.println(_noOfItems);
+
 		for (; i < _noOfItems - 1; i++) {
 			System.out.println(_stock[i].toString());
 		}
 
 		return _stock[i].toString();
 	}
-	
-	
-	
+
+	public int mostExpensive() {
+		int maxPrice = 0 ;
+
+		for (int i = 0; i < _noOfItems; i++) {
+			if (_stock[i].getPrice() > maxPrice)
+				maxPrice = _stock[i].getPrice();
+		}
+		return maxPrice;
+	}
+
+	public int howManyPieces() {
+
+		int totalQuantity = 0;
+		if (_noOfItems > 0) {
+			for (int i = 0; i < _noOfItems; i++) {
+				System.out.println(_stock[i].getName());
+				totalQuantity += _stock[i].getQuantity();
+			}
+			return totalQuantity;
+		} else
+			return 0;
+	}
 
 	public static void main(String[] args) {
 		Stock stock = new Stock();
@@ -253,7 +291,7 @@ public class Stock {
 		FoodItem food2 = new FoodItem("Chreios", 1234, 1, DIFF_productionDate, DIFF_expiryDate, 0, 20, 50);
 		// System.out.println(food1.toString());
 		FoodItem food3 = new FoodItem("dog", 4321, 1, DIFF_productionDate, DIFF_expiryDate, 0, 20, 50);
-		FoodItem food4 = new FoodItem("cat", 4321, 1, DIFF_productionDate, DIFF_expiryDate, 0, 20, 50);
+		FoodItem food4 = new FoodItem("cat", 4321, 1, DIFF_productionDate, DIFF_expiryDate, 0, 20, 900);
 		// System.out.println(stock.addItem(food1));
 		// System.out.println("******\nadding food1");
 		stock.addItem(food1);
@@ -264,18 +302,14 @@ public class Stock {
 
 		stock.addItem(food4);
 		System.out.println(stock.toString());
-	
-System.out.println("how many: " + stock.howMany(30));
+
+		System.out.println("how many: " + stock.howMany(30));
 		System.out.println(stock.order(10));
-		
-		Date TodaysDate = new Date(8, 10, 2002);
-		stock.removeAfterDate(TodaysDate);
-		
-		System.out.println(stock.toString());
-		
-		
-		
-		
+
+		Date TodaysDate = new Date(8, 7, 2001);
+		//stock.removeAfterDate(TodaysDate);
+
+		System.out.println(stock.howManyPieces());
 
 	}
 }
