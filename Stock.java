@@ -2,6 +2,7 @@ import com.sun.istack.internal.FragmentContentHandler;
 import com.sun.jmx.remote.util.OrderClassLoaders;
 import com.sun.org.apache.bcel.internal.generic.IUSHR;
 import com.sun.org.apache.xml.internal.security.algorithms.implementations.IntegrityHmac;
+import com.sun.xml.internal.bind.v2.runtime.InlineBinaryTransducer;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
 
@@ -27,10 +28,8 @@ public class Stock {
 	 *         date
 	 */
 	private boolean checkIfItemExist(FoodItem newitem, int i) {
-		// System.out.println("in checkIfItem: i: "+i );
-		// System.out.println(_stock[i].getName());
-		if (_stock[i] == null)
-			System.out.println("_stock[i] == nul!!");
+
+
 		if (_stock[i].getName().equals(newitem.getName())
 				&& _stock[i].getCatalogueNumber() == newitem.getCatalogueNumber()
 				&& _stock[i].getExpiryDate().equals(newitem.getExpiryDate())
@@ -43,26 +42,24 @@ public class Stock {
 	}
 
 	public boolean addItem(FoodItem newitem) {
-		// ystem.out.println("getNum: " +getNumOfItems());
+
 
 		int k = 0;
 
 		for (int i = 0; i < _noOfItems; i++) {
-			// System.out.println("in add Item: i: "+i);
+
 
 			if (checkIfItemExist(newitem, i)) {
-				// System.out.println("in addItem: item "+_stock[i].getName() +" exist");
-				// System.out.println(_stock[i].getName());
+
 				_stock[i].setQuantity(_stock[i].getQuantity() + newitem.getQuantity());
 
-				// System.out.println("in add item: " + _stock[i].toString());
 				return true;
 			}
 
 		}
 
 		if (_noOfItems == _stock.length) {
-			// System.out.println("in addItem: no more space. not added");
+
 			return false;
 		}
 
@@ -72,22 +69,21 @@ public class Stock {
 		}
 
 		if (findIndexByName(newitem.getName()) == -1) {
-			// System.out.println("in addItem: index not exist. new item added");
+	
 			_stock[k] = new FoodItem(newitem);
 			_noOfItems++;
 		} else {
-			// System.out.println("in addItem: name exist. new item added before");
+		
 			int index = findIndexByName(newitem.getName());
 			this.moveForward(index);
 			_stock[index] = newitem;
-			// System.out.println("index: "+index);
-			// System.out.println("_stock[index] " +_stock[index].getName());
-			// System.out.println("_stock[index+1] " +_stock[index+1].getName());
+	
 			k = index;
 			_noOfItems++;
+			System.out.println("in Same Name. addItem");
 		}
 
-		// System.out.println("in addItem: item added: "+_stock[k].toString());
+
 
 		return true;
 
@@ -121,11 +117,53 @@ public class Stock {
 		// other wise add it
 
 		String order = "";
+		for(int i=0; i<_noOfItems;i++) {
+			int totalQuantity = 0;
+			if (amountOfItem(i)>1) {
+				System.out.println("in");
+				for(int j=i;j<i+amountOfItem(i);j++) { // iterating range of items of same kind
+					System.out.println(_stock[j].getName());
+					totalQuantity+=_stock[j].getQuantity();	//adding each items quantity to a total one			
+				}
+			}else //only one item of this kind
+				totalQuantity+=_stock[i].getQuantity();
+			
+			if(totalQuantity<amount && i!= _noOfItems-1)
+				order += _stock[i].getName()+ ",";
+			else
+				order += _stock[i].getName();
+			
+			i+=	amountOfItem(i); //increasing i to be after range
+			
+		}
+						
+		return order;
 
 		// checking for duplication
-		return getList(amount, order);
+		//return getList(amount, order);
 
 	}
+	
+	/**
+	 * returns how many items of the same kind(same name)
+	 * @param index
+	 * @return
+	 */
+	private int amountOfItem(int index) {
+		
+		int equalItems = 0;
+		
+		for(int i = index; i<_noOfItems-1;i++) {
+			if(_stock[i].getName().equals(_stock[i+1].getName()))	
+				equalItems++;
+		}
+		
+		
+		
+		return equalItems;
+	}
+	
+	
 
 	private String getList(int amount, String order) {
 		int k = 0;
@@ -136,10 +174,9 @@ public class Stock {
 
 			if (_stock[j].getName().equals(_stock[j + 1].getName())
 					&& (_stock[j].getQuantity() + _stock[j + 1].getQuantity()) < amount) { // if there are a few items
-				// with the same name i
+		
 
 				k = j + 1;
-				// sameProductsQuantity = _stock[j].getQuantity() + _stock[k].getQuantity() ;
 				sameProductsQuantity = _stock[k].getQuantity();
 
 				if (_stock[k].getName().equals(_stock[k + 1].getName())) {
@@ -168,35 +205,6 @@ public class Stock {
 		return order;
 	}
 
-	/*
-	 * if non of the above happend than the for loope ended - it means that there
-	 * isnt an item line the parameter newitem in the array and that there was no
-	 * free space in the array to put the newitem than the method additem didnt work
-	 * and it will return false
-	 */
-	/*
-	 * private boolean checkIfItemExist(FoodItem newitem) {
-	 * 
-	 * int k = 0; if (_stock.length > 1) { for (int i = 0; i < _stock.length; i++) {
-	 * System.out.println(i);
-	 * 
-	 * if (checkProductsValues(newitem, i) == 1) {
-	 * _stock[i].setQuantity(_stock[i].getQuantity() + newitem.getQuantity());
-	 * return true; } else
-	 * 
-	 * while (_stock[k] != null) {
-	 * 
-	 * if (_stock[k].productionDate.before(newitem.productionDate))
-	 * 
-	 * k++; } _stock[k] = newitem;
-	 * 
-	 * return true;
-	 * 
-	 * }
-	 * 
-	 * } return false; }
-	 */
-
 	public int howMany(int temp) {
 		int numOfItmToTranfer = 0;
 
@@ -208,34 +216,19 @@ public class Stock {
 		return numOfItmToTranfer;
 	}
 
-	/**
-	 * problems: removing items from the array but duplicates the last name in the
-	 * array to all of the other names
-	 * 
-	 */
+
 	public void removeAfterDate(Date d) {
 
-		for (int i = _noOfItems - 1; i >= 0; i--) {
-
+		for (int i = 0; i < _noOfItems;) {
 			if (_stock[i].getExpiryDate().before(d)) {
-				System.out.println("if: " + _stock[i].getName() + " expiry date: " + _stock[i].getExpiryDate()
-						+ "before : " + d.toString());
-				for (int j = _noOfItems - 1; j >= i; j--) {
-
-					if (j < 1) {
-						_stock[j] = null;
-						break;
-					}
-					System.out.println(j);
-
-					_stock[j - 1] = _stock[j];
-					System.out.println(j);
-
+				for (int j = i; j < _noOfItems - 1; j++) {
+					_stock[j] = _stock[j + 1];				
 				}
-				_noOfItems--;
-				_stock[_noOfItems + 1] = null;
+				_stock[_noOfItems - 1] = null;
+				_noOfItems--;				
+			}else
+			 i++;
 
-			}
 		}
 
 	}
@@ -247,7 +240,7 @@ public class Stock {
 		if (_noOfItems < 1)
 			return "out of stock";
 
-		System.out.println(_noOfItems);
+
 
 		for (; i < _noOfItems - 1; i++) {
 			System.out.println(_stock[i].toString());
@@ -257,7 +250,7 @@ public class Stock {
 	}
 
 	public int mostExpensive() {
-		int maxPrice = 0 ;
+		int maxPrice = 0;
 
 		for (int i = 0; i < _noOfItems; i++) {
 			if (_stock[i].getPrice() > maxPrice)
@@ -271,7 +264,6 @@ public class Stock {
 		int totalQuantity = 0;
 		if (_noOfItems > 0) {
 			for (int i = 0; i < _noOfItems; i++) {
-				System.out.println(_stock[i].getName());
 				totalQuantity += _stock[i].getQuantity();
 			}
 			return totalQuantity;
@@ -280,36 +272,49 @@ public class Stock {
 	}
 
 	public static void main(String[] args) {
+		
 		Stock stock = new Stock();
 		Date productionDate1 = new Date(8, 3, 2001);
 		Date expiryDate1 = new Date(8, 6, 2001);
 
-		Date DIFF_productionDate = new Date(8, 9, 2001);
+		Date DIFF_productionDate = new Date(8, 5, 2001);
 		Date DIFF_expiryDate = new Date(8, 10, 2001);
 
-		FoodItem food1 = new FoodItem("Chreios", 1234, 1, productionDate1, expiryDate1, 0, 5, 25);
-		FoodItem food2 = new FoodItem("Chreios", 1234, 1, DIFF_productionDate, DIFF_expiryDate, 0, 20, 50);
-		// System.out.println(food1.toString());
-		FoodItem food3 = new FoodItem("dog", 4321, 1, DIFF_productionDate, DIFF_expiryDate, 0, 20, 50);
-		FoodItem food4 = new FoodItem("cat", 4321, 1, DIFF_productionDate, DIFF_expiryDate, 0, 20, 900);
-		// System.out.println(stock.addItem(food1));
-		// System.out.println("******\nadding food1");
-		stock.addItem(food1);
+		FoodItem food1 = new FoodItem("Chreios", 1234, 1, DIFF_productionDate, DIFF_expiryDate, 0, 5, 25);
+		//System.out.println(food1.toString());
+		FoodItem food2 = new FoodItem("Chreios", 1234, 1, productionDate1, expiryDate1, 0, 20, 50);
+	//	System.out.println(food2.toString());
+		FoodItem food5 = new FoodItem("Oreo", 1234, 1, productionDate1, expiryDate1, 0, 20, 50);
 
-		// System.out.println("******\nadding food2");
+		FoodItem food3 = new FoodItem("dog", 4321, 1, productionDate1, expiryDate1, 0, 20, 50);
+		//System.out.println(food3.toString());
+		FoodItem food4 = new FoodItem("cat", 4321, 1, productionDate1, expiryDate1, 0, 20, 900);
+
+		stock.addItem(food1);
+		//System.out.println(stock.getNumOfItems());
+		//System.out.println(food1.toString());
+
 		stock.addItem(food2);
+		//System.out.println(stock.getNumOfItems());
+		//System.out.println(food2.toString());
 		stock.addItem(food3);
+		//System.out.println(stock.getNumOfItems());
+		//System.out.println(food3.toString());
 
 		stock.addItem(food4);
+		//System.out.println(stock.getNumOfItems());
+		stock.addItem(food5);
+		//System.out.println(stock.getNumOfItems());
+/*
 		System.out.println(stock.toString());
-
-		System.out.println("how many: " + stock.howMany(30));
+		Date TodaysDate = new Date(8, 7, 2002);
+		//stock.getList(10);
+		System.out.println(stock.toString());
+	*/
+		
 		System.out.println(stock.order(10));
-
-		Date TodaysDate = new Date(8, 7, 2001);
-		//stock.removeAfterDate(TodaysDate);
-
-		System.out.println(stock.howManyPieces());
+		
+		
 
 	}
 }
