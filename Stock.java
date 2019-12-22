@@ -2,6 +2,7 @@ import com.sun.istack.internal.FragmentContentHandler;
 import com.sun.jmx.remote.util.OrderClassLoaders;
 import com.sun.org.apache.bcel.internal.generic.DASTORE;
 import com.sun.org.apache.bcel.internal.generic.IUSHR;
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import com.sun.org.apache.xml.internal.security.algorithms.implementations.IntegrityHmac;
 import com.sun.xml.internal.bind.v2.runtime.InlineBinaryTransducer;
 
@@ -218,20 +219,64 @@ public class Stock {
 			return 0;
 	}
 
+	private int howManyOfSameKind(String []itemsList, int startIndex) {
+		
+		int sameItemsSum = 0;
+		int j =0;
+		sameItemsSum=0;
+	//	System.out.println("checking :" + itemsList[startIndex]);
+		
+		for(int i = 1; i<itemsList.length;i++) {
+			
+			if(itemsList[startIndex].equals(itemsList[i])) {
+				if(i==itemsList.length-1) {
+					startIndex++;
+					i=startIndex+1;
+				}
+				sameItemsSum++;
+			}
+		}
+		return sameItemsSum;
+	}
+
 	public void updateStock(String[] itemsList) {
 
 		// itretite over the array and find how many do i need to reduce from each item
-		for (int j = 0; j < _noOfItems; j++) {
+
+		/*
+		 * if found an item
+		 */
+
+		//System.out.println(howManyOfSameKind(itemsList));
+		
+
+		int sameItemsSum = 0;
+	//	for (int j = 0; j < _noOfItems; j++) {
+		int j = 0;
 			for (int i = 0; i < itemsList.length; i++) {
 				if (_stock[j].getName().equals(itemsList[i])) {
-					System.out.println(_stock[j].getName() +" equals "+ itemsList[i]);
-					_stock[j].setQuantity(_stock[i].getQuantity() - 1);
-					
+					System.out.println(_stock[j] + "is equal " + itemsList[i]);
+				//	System.out.println("_stock[j]: " + _stock[j] + " equals " +  "itemsList[i]: "+ itemsList[i] );
+					//sameItemsSum++;
+					int startIndex = i;
+				
+					sameItemsSum += howManyOfSameKind( itemsList,startIndex);
+				
+				//	System.out.println("there are : " +  sameItemsSum + "of type : " + itemsList[i]);
+				//	if (_stock[j].getQuantity() - sameItemsSum > 0)
+				//		_stock[j].setQuantity(_stock[j].getQuantity() - sameItemsSum);
+
 				}
 			
+				
+			//	sameItemsSum=0;
 			}
+			System.out.println("you have to remove  " + sameItemsSum + " " + _stock[j].getName());
+			System.out.println(sameItemsSum);
+			
+			
 
-		}
+		//}
 
 	}
 
@@ -269,11 +314,10 @@ public class Stock {
 		 * //stock.getList(10); System.out.println(stock.toString());
 		 */
 
-		//System.out.println(stock.order(10));
-		String itemsList[]= {"Chreios","Chreios","Oreo","Oreo","Oreo"};
+		// System.out.println(stock.order(10));
+		String itemsList[] = { "Chreios", "dog", "dog", "Chreios", "dog" };
 		stock.updateStock(itemsList);
-		System.out.println(stock.toString());
-		
+		//System.out.println(stock.toString());
 
 	}
 }
