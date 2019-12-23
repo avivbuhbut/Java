@@ -259,8 +259,7 @@ public class Stock {
 
 		}
 
-		// System.out.println("was cheacking : " + forPrint);
-		// System.out.println("sameItemsSum : " + sameItemsSum);
+
 
 		return sameItemsSum;
 	}
@@ -269,14 +268,14 @@ public class Stock {
 
 		// itretite over the array and find how many do i need to reduce from each item
 
-		// break into small function
+
 
 		int sameItemsSum = 0;
 		for (int j = 0; j < _noOfItems; j++) {
 
 			for (int i = 0; i < itemsList.length; i++) {
 				if (_stock[j].getName().equals(itemsList[i])) {
-					// System.out.println("fooditemL " + _stock[j].getName());
+				
 					int startIndex = i;
 
 					sameItemsSum += howManyOfSameKind(itemsList, startIndex);
@@ -325,13 +324,13 @@ public class Stock {
 		Date DIFF_expiryDate = new Date(8, 10, 2001);
 
 		FoodItem food1 = new FoodItem("Chreios", 1234, 4, DIFF_productionDate, DIFF_expiryDate, 0, 5, 25);
-		// System.out.println(food1.toString());
+
 		FoodItem food2 = new FoodItem("Chreios", 1234, 4, productionDate1, expiryDate1, 0, 20, 50);
-		// System.out.println(food2.toString());
+		
 		FoodItem food5 = new FoodItem("Oreo", 1234, 5, productionDate1, expiryDate1, 0, 20, 50);
 
 		FoodItem food3 = new FoodItem("dog", 4321, 1, productionDate1, expiryDate1, 0, 20, 50);
-		// System.out.println(food3.toString());
+
 		FoodItem food4 = new FoodItem("cat", 4321, 1, productionDate1, expiryDate1, 0, 20, 900);
 
 		stock.addItem(food1);
@@ -344,15 +343,10 @@ public class Stock {
 
 		stock.addItem(food5);
 
-		/*
-		 * System.out.println(stock.toString()); Date TodaysDate = new Date(8, 7, 2002);
-		 * //stock.getList(10); System.out.println(stock.toString());
-		 */
 
-		// System.out.println(stock.order(10));
 		String itemsList[] = { "Chreios", "dog", "dog", "Chreios", "dog", "cat", "cat" };
 		stock.updateStock(itemsList);
-		// System.out.println(stock.toString());
+
 
 	}
 }
