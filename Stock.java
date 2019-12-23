@@ -219,23 +219,49 @@ public class Stock {
 			return 0;
 	}
 
-	private int howManyOfSameKind(String []itemsList, int startIndex) {
-		
+	
+	
+	//need to retrun how many are from the same kins in the string array
+	private int howManyOfSameKind(String[] itemsList, int startIndex) {
+
+		String forPrint = itemsList[startIndex];
+
 		int sameItemsSum = 0;
-		int j =0;
-		sameItemsSum=0;
-	//	System.out.println("checking :" + itemsList[startIndex]);
-		
-		for(int i = 1; i<itemsList.length;i++) {
-			
-			if(itemsList[startIndex].equals(itemsList[i])) {
-				if(i==itemsList.length-1) {
-					startIndex++;
-					i=startIndex+1;
-				}
-				sameItemsSum++;
-			}
+		int j = 0;
+		sameItemsSum = 0;
+
+		/* printing the string array ***************delete after debug **************/
+		for (int i = 0; i < itemsList.length; i++) {
+			if (i != itemsList.length - 1)
+				System.out.print(itemsList[i] + ",");
+			else
+				System.out.print(itemsList[i]);
+
 		}
+		System.out.println();
+
+		int indexToOverRide = 0;
+
+		for (int i = 0; i < itemsList.length - 1;) {
+
+			if (itemsList[startIndex].equals(itemsList[i + 1])) {
+				int k = i + 1;
+				System.out.println(startIndex + " ==  " + k);
+				indexToOverRide = startIndex;
+				// if(startIndex!=i)
+				sameItemsSum++;
+
+				itemsList[indexToOverRide] = "1";
+				startIndex = i;
+
+			}
+			i++;
+
+		}
+
+		// System.out.println("was cheacking : " + forPrint);
+		// System.out.println("sameItemsSum : " + sameItemsSum);
+
 		return sameItemsSum;
 	}
 
@@ -243,42 +269,51 @@ public class Stock {
 
 		// itretite over the array and find how many do i need to reduce from each item
 
-		/*
-		 * if found an item
-		 */
-
-		//System.out.println(howManyOfSameKind(itemsList));
-		
+		// break into small function
 
 		int sameItemsSum = 0;
-	//	for (int j = 0; j < _noOfItems; j++) {
-		int j = 0;
+		for (int j = 0; j < _noOfItems; j++) {
+
 			for (int i = 0; i < itemsList.length; i++) {
 				if (_stock[j].getName().equals(itemsList[i])) {
-					System.out.println(_stock[j] + "is equal " + itemsList[i]);
-				//	System.out.println("_stock[j]: " + _stock[j] + " equals " +  "itemsList[i]: "+ itemsList[i] );
-					//sameItemsSum++;
+					// System.out.println("fooditemL " + _stock[j].getName());
 					int startIndex = i;
-				
-					sameItemsSum += howManyOfSameKind( itemsList,startIndex);
-				
-				//	System.out.println("there are : " +  sameItemsSum + "of type : " + itemsList[i]);
-				//	if (_stock[j].getQuantity() - sameItemsSum > 0)
-				//		_stock[j].setQuantity(_stock[j].getQuantity() - sameItemsSum);
+
+					sameItemsSum += howManyOfSameKind(itemsList, startIndex);
 
 				}
-			
-				
-			//	sameItemsSum=0;
-			}
-			System.out.println("you have to remove  " + sameItemsSum + " " + _stock[j].getName());
-			System.out.println(sameItemsSum);
-			
-			
 
-		//}
+			}
+
+			System.out.println("you have to remove  " + sameItemsSum + " " + _stock[j].getName());
+			sameItemsSum = 0;
+
+			System.out.println(sameItemsSum);
+
+			/* printing the string array */
+			for (int i = 0; i < itemsList.length; i++) {
+				if (i != itemsList.length - 1)
+					System.out.print(itemsList[i] + ",");
+				else
+					System.out.print(itemsList[i]);
+
+			}
+			System.out.println();
+
+		}
 
 	}
+	
+	
+	public int getTempOfStock() {
+		int minTemp = 0;
+		for(int i=0; i<_noOfItems;i++) {
+			//if()
+		}
+		
+		return 0;
+	}
+	
 
 	public static void main(String[] args) {
 
@@ -315,9 +350,9 @@ public class Stock {
 		 */
 
 		// System.out.println(stock.order(10));
-		String itemsList[] = { "Chreios", "dog", "dog", "Chreios", "dog" };
+		String itemsList[] = { "Chreios", "dog", "dog", "Chreios", "dog", "cat", "cat" };
 		stock.updateStock(itemsList);
-		//System.out.println(stock.toString());
+		// System.out.println(stock.toString());
 
 	}
 }
