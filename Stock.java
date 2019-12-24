@@ -1,12 +1,3 @@
-import com.sun.istack.internal.FragmentContentHandler;
-import com.sun.jmx.remote.util.OrderClassLoaders;
-import com.sun.org.apache.bcel.internal.generic.DASTORE;
-import com.sun.org.apache.bcel.internal.generic.IUSHR;
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.IntegrityHmac;
-import com.sun.xml.internal.bind.v2.runtime.InlineBinaryTransducer;
-
-import jdk.nashorn.internal.ir.annotations.Ignore;
 
 public class Stock {
 
@@ -124,14 +115,12 @@ public class Stock {
 				}
 			} else // only one item of this kind
 				totalQuantity += _stock[i].getQuantity();
-
+			
 			if (totalQuantity < amount && i != _noOfItems - 1)
 				order += _stock[i].getName() + ",";
 			else
 				order += _stock[i].getName();
-
 			i += amountOfItem(i); // increasing i to be after range
-
 		}
 
 		return order;
@@ -178,11 +167,8 @@ public class Stock {
 				_noOfItems--;
 			} else
 				i++;
-
 		}
-
 	}
-
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -218,19 +204,18 @@ public class Stock {
 		} else
 			return 0;
 	}
-
 	
-	
-	//need to retrun how many are from the same kins in the string array
+	// need to retrun how many are from the same kins in the string array
 	private int howManyOfSameKind(String[] itemsList, int startIndex) {
 
 		String forPrint = itemsList[startIndex];
 
-		int sameItemsSum = 0;
+
 		int j = 0;
-		sameItemsSum = 0;
+		int sameItemsSum = 1;
 
 		/* printing the string array ***************delete after debug **************/
+		
 		for (int i = 0; i < itemsList.length; i++) {
 			if (i != itemsList.length - 1)
 				System.out.print(itemsList[i] + ",");
@@ -242,48 +227,34 @@ public class Stock {
 
 		int indexToOverRide = 0;
 
-		for (int i = 0; i < itemsList.length - 1;) {
-
-			if (itemsList[startIndex].equals(itemsList[i + 1])) {
-				int k = i + 1;
-				System.out.println(startIndex + " ==  " + k);
+		for (int i = startIndex+1; i < itemsList.length - 1;i++) {
+			if (itemsList[startIndex].equals(itemsList[i ])) {
+	
+				System.out.println(startIndex + " ==  " + i);
 				indexToOverRide = startIndex;
-				// if(startIndex!=i)
 				sameItemsSum++;
-
-				itemsList[indexToOverRide] = "1";
-				startIndex = i;
-
+				itemsList[i] = "1";
+			
 			}
-			i++;
-
+			
 		}
-
-
-
+		itemsList[startIndex] = "1";
 		return sameItemsSum;
 	}
-
+	
 	public void updateStock(String[] itemsList) {
 
 		// itretite over the array and find how many do i need to reduce from each item
-
-
 
 		int sameItemsSum = 0;
 		for (int j = 0; j < _noOfItems; j++) {
 
 			for (int i = 0; i < itemsList.length; i++) {
 				if (_stock[j].getName().equals(itemsList[i])) {
-				
 					int startIndex = i;
-
 					sameItemsSum += howManyOfSameKind(itemsList, startIndex);
-
 				}
-
 			}
-
 			System.out.println("you have to remove  " + sameItemsSum + " " + _stock[j].getName());
 			sameItemsSum = 0;
 
@@ -298,21 +269,24 @@ public class Stock {
 
 			}
 			System.out.println();
-
 		}
-
 	}
+
 	
-	
+	/*get the min max 
+	 * and get the max min with 2 for loops
+	 * 
+	 * if the products are not in the range of those two numbers 
+	 * return the maxInteger
+	 * */
 	public int getTempOfStock() {
 		int minTemp = 0;
-		for(int i=0; i<_noOfItems;i++) {
-			//if()
+		for (int i = 0; i < _noOfItems; i++) 
+			// if()
 		}
-		
+
 		return 0;
 	}
-	
 
 	public static void main(String[] args) {
 
@@ -326,7 +300,7 @@ public class Stock {
 		FoodItem food1 = new FoodItem("Chreios", 1234, 4, DIFF_productionDate, DIFF_expiryDate, 0, 5, 25);
 
 		FoodItem food2 = new FoodItem("Chreios", 1234, 4, productionDate1, expiryDate1, 0, 20, 50);
-		
+
 		FoodItem food5 = new FoodItem("Oreo", 1234, 5, productionDate1, expiryDate1, 0, 20, 50);
 
 		FoodItem food3 = new FoodItem("dog", 4321, 1, productionDate1, expiryDate1, 0, 20, 50);
@@ -343,10 +317,8 @@ public class Stock {
 
 		stock.addItem(food5);
 
-
-		String itemsList[] = { "Chreios", "dog", "dog", "Chreios", "dog", "cat", "cat" };
+		String itemsList[] = { "Chreios", "dog", "dog", "Chreios", "Oreo", "dog", "cat", "cat" };
 		stock.updateStock(itemsList);
-
 
 	}
 }
