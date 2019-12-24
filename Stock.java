@@ -1,4 +1,5 @@
 
+
 public class Stock {
 
 	FoodItem[] _stock;
@@ -280,11 +281,34 @@ public class Stock {
 	 * return the maxInteger
 	 * */
 	public int getTempOfStock() {
-		int minTemp = 0;
+		
+		
+		if(_noOfItems==0)
+			return Integer.MAX_VALUE;
+		
+		
+		int maxOfMinTemp = _stock[0].getMinTemperature();
+		
+		int minOfMaxTemp = _stock[0].getMaxTemperature();
+		
 		for (int i = 0; i < _noOfItems; i++) {
-			// if()
+			
+			
+			//gets the maximum of all the min tempetures
+			if(_stock[i].getMinTemperature() > maxOfMinTemp )
+				maxOfMinTemp = _stock[i].getMinTemperature();
+			
+			//gets the minimum of all the max tempetures
+			if(_stock[i].getMaxTemperature() < minOfMaxTemp)
+				minOfMaxTemp = _stock[i].getMaxTemperature();
+			
+			
 		}
-
+		
+		System.out.println("maxOfMinTemp: "  + maxOfMinTemp);
+		System.out.println("minOfMaxTemp: "  + minOfMaxTemp);
+		
+		
 		return 0;
 	
 }
@@ -298,28 +322,30 @@ public class Stock {
 		Date DIFF_productionDate = new Date(8, 5, 2001);
 		Date DIFF_expiryDate = new Date(8, 10, 2001);
 
-		FoodItem food1 = new FoodItem("Chreios", 1234, 4, DIFF_productionDate, DIFF_expiryDate, 0, 5, 25);
+		FoodItem food1 = new FoodItem("Chreios", 1234, 4, DIFF_productionDate, DIFF_expiryDate, 6, 11, 25);
 
-		FoodItem food2 = new FoodItem("Chreios", 1234, 4, productionDate1, expiryDate1, 0, 20, 50);
+		FoodItem food2 = new FoodItem("Chreios", 1234, 4, productionDate1, expiryDate1, 7, 10, 50);
 
-		FoodItem food5 = new FoodItem("Oreo", 1234, 5, productionDate1, expiryDate1, 0, 20, 50);
+		FoodItem food5 = new FoodItem("Oreo", 1234, 5, productionDate1, expiryDate1, 9, 13, 50);
 
-		FoodItem food3 = new FoodItem("dog", 4321, 1, productionDate1, expiryDate1, 0, 20, 50);
+		//FoodItem food3 = new FoodItem("dog", 4321, 1, productionDate1, expiryDate1, 0, 20, 50);
 
-		FoodItem food4 = new FoodItem("cat", 4321, 1, productionDate1, expiryDate1, 0, 20, 900);
+	//	FoodItem food4 = new FoodItem("cat", 4321, 1, productionDate1, expiryDate1, 0, 20, 900);
 
 		stock.addItem(food1);
 
 		stock.addItem(food2);
 
-		stock.addItem(food3);
+	//	stock.addItem(food3);
 
-		stock.addItem(food4);
+	//	stock.addItem(food4);
 
 		stock.addItem(food5);
 
 		String itemsList[] = { "Chreios", "dog", "dog", "Chreios", "Oreo", "dog", "cat", "cat" };
 		stock.updateStock(itemsList);
+		
+		stock.getTempOfStock();
 
 	}
 }
