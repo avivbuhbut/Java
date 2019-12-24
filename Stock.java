@@ -281,12 +281,13 @@ public class Stock {
 	 * */
 	public int getTempOfStock() {
 		int minTemp = 0;
-		for (int i = 0; i < _noOfItems; i++) 
+		for (int i = 0; i < _noOfItems; i++) {
 			// if()
 		}
 
 		return 0;
-	}
+	
+}
 
 	public static void main(String[] args) {
 
