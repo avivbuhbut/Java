@@ -111,7 +111,7 @@ public class Stock {
 			if (amountOfItem(i) > 1) {
 				System.out.println("in");
 				for (int j = i; j < i + amountOfItem(i); j++) { // iterating range of items of same kind
-					System.out.println(_stock[j].getName());
+					
 					totalQuantity += _stock[j].getQuantity(); // adding each items quantity to a total one
 				}
 			} else // only one item of this kind
@@ -172,7 +172,7 @@ public class Stock {
 	}
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
+	
 		int i = 0;
 		if (_noOfItems < 1)
 			return "out of stock";
@@ -205,8 +205,7 @@ public class Stock {
 		} else
 			return 0;
 	}
-	
-	// need to retrun how many are from the same kins in the string array
+
 	private int howManyOfSameKind(String[] itemsList, int startIndex) {
 
 		String forPrint = itemsList[startIndex];
@@ -215,23 +214,14 @@ public class Stock {
 		int j = 0;
 		int sameItemsSum = 1;
 
-		/* printing the string array ***************delete after debug **************/
-		
-		for (int i = 0; i < itemsList.length; i++) {
-			if (i != itemsList.length - 1)
-				System.out.print(itemsList[i] + ",");
-			else
-				System.out.print(itemsList[i]);
-
-		}
-		System.out.println();
+	
 
 		int indexToOverRide = 0;
 
 		for (int i = startIndex+1; i < itemsList.length - 1;i++) {
 			if (itemsList[startIndex].equals(itemsList[i ])) {
 	
-				System.out.println(startIndex + " ==  " + i);
+
 				indexToOverRide = startIndex;
 				sameItemsSum++;
 				itemsList[i] = "1";
@@ -245,7 +235,6 @@ public class Stock {
 	
 	public void updateStock(String[] itemsList) {
 
-		// itretite over the array and find how many do i need to reduce from each item
 
 		int sameItemsSum = 0;
 		for (int j = 0; j < _noOfItems; j++) {
@@ -256,30 +245,17 @@ public class Stock {
 					sameItemsSum += howManyOfSameKind(itemsList, startIndex);
 				}
 			}
-			System.out.println("you have to remove  " + sameItemsSum + " " + _stock[j].getName());
+			
 			sameItemsSum = 0;
 
-			System.out.println(sameItemsSum);
+		
 
-			/* printing the string array */
-			for (int i = 0; i < itemsList.length; i++) {
-				if (i != itemsList.length - 1)
-					System.out.print(itemsList[i] + ",");
-				else
-					System.out.print(itemsList[i]);
-
-			}
-			System.out.println();
+			
 		}
 	}
 
 	
-	/*get the min max 
-	 * and get the max min with 2 for loops
-	 * 
-	 * if the products are not in the range of those two numbers 
-	 * return the maxInteger
-	 * */
+
 	public int getTempOfStock() {
 		
 		
@@ -305,11 +281,23 @@ public class Stock {
 			
 		}
 		
-		System.out.println("maxOfMinTemp: "  + maxOfMinTemp);
-		System.out.println("minOfMaxTemp: "  + minOfMaxTemp);
 		
 		
-		return 0;
+		
+		//****fuck***
+		
+		for (int i = 0; i < _noOfItems; i++) {
+			
+			
+		
+			
+			
+		}
+		
+
+		
+		
+		return Math.min(maxOfMinTemp, minOfMaxTemp);
 	
 }
 
@@ -345,7 +333,7 @@ public class Stock {
 		String itemsList[] = { "Chreios", "dog", "dog", "Chreios", "Oreo", "dog", "cat", "cat" };
 		stock.updateStock(itemsList);
 		
-		stock.getTempOfStock();
+		System.out.println(stock.getTempOfStock());
 
 	}
 }
