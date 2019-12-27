@@ -1,5 +1,4 @@
 
-
 public class Stock {
 
 	FoodItem[] _stock;
@@ -111,12 +110,12 @@ public class Stock {
 			if (amountOfItem(i) > 1) {
 				System.out.println("in");
 				for (int j = i; j < i + amountOfItem(i); j++) { // iterating range of items of same kind
-					
+
 					totalQuantity += _stock[j].getQuantity(); // adding each items quantity to a total one
 				}
 			} else // only one item of this kind
 				totalQuantity += _stock[i].getQuantity();
-			
+
 			if (totalQuantity < amount && i != _noOfItems - 1)
 				order += _stock[i].getName() + ",";
 			else
@@ -170,9 +169,10 @@ public class Stock {
 				i++;
 		}
 	}
+
 	@Override
 	public String toString() {
-	
+
 		int i = 0;
 		if (_noOfItems < 1)
 			return "out of stock";
@@ -210,31 +210,26 @@ public class Stock {
 
 		String forPrint = itemsList[startIndex];
 
-
 		int j = 0;
 		int sameItemsSum = 1;
 
-	
-
 		int indexToOverRide = 0;
 
-		for (int i = startIndex+1; i < itemsList.length - 1;i++) {
-			if (itemsList[startIndex].equals(itemsList[i ])) {
-	
+		for (int i = startIndex + 1; i < itemsList.length - 1; i++) {
+			if (itemsList[startIndex].equals(itemsList[i])) {
 
 				indexToOverRide = startIndex;
 				sameItemsSum++;
 				itemsList[i] = "1";
-			
+
 			}
-			
+
 		}
 		itemsList[startIndex] = "1";
 		return sameItemsSum;
 	}
-	
-	public void updateStock(String[] itemsList) {
 
+	public void updateStock(String[] itemsList) {
 
 		int sameItemsSum = 0;
 		for (int j = 0; j < _noOfItems; j++) {
@@ -245,61 +240,41 @@ public class Stock {
 					sameItemsSum += howManyOfSameKind(itemsList, startIndex);
 				}
 			}
-			
+
 			sameItemsSum = 0;
 
-		
-
-			
 		}
 	}
 
-	
-
 	public int getTempOfStock() {
-		
-		
-		if(_noOfItems==0)
-			return Integer.MAX_VALUE;
-		
-		
-		int maxOfMinTemp = _stock[0].getMinTemperature();
-		
-		int minOfMaxTemp = _stock[0].getMaxTemperature();
-		
-		for (int i = 0; i < _noOfItems; i++) {
-			
-			
-			//gets the maximum of all the min tempetures
-			if(_stock[i].getMinTemperature() > maxOfMinTemp )
-				maxOfMinTemp = _stock[i].getMinTemperature();
-			
-			//gets the minimum of all the max tempetures
-			if(_stock[i].getMaxTemperature() < minOfMaxTemp)
-				minOfMaxTemp = _stock[i].getMaxTemperature();
-			
-			
-		}
-		
-		
-		
-		
-		//****fuck***
-		
-		for (int i = 0; i < _noOfItems; i++) {
-			
-			
-		
-			
-			
-		}
-		
 
-		
-		
-		return Math.min(maxOfMinTemp, minOfMaxTemp);
-	
-}
+		if (_noOfItems == 0)
+			return Integer.MAX_VALUE;
+
+		int flag = 0;
+
+		int minTemp = _stock[0].getMinTemperature();
+
+		int maxTemp = _stock[0].getMaxTemperature();
+
+		for (int i = 1; i < _noOfItems; i++) {
+
+			// gets the maximum of all the min tempetures
+			if (_stock[i].getMinTemperature() > minTemp)
+				minTemp = _stock[i].getMinTemperature();
+
+			// gets the minimum of all the max tempetures
+			if (_stock[i].getMaxTemperature() < maxTemp)
+				maxTemp = _stock[i].getMaxTemperature();
+
+		}
+
+		if (maxTemp < minTemp)
+			return Integer.MAX_VALUE;
+
+		return Math.min(minTemp, maxTemp);
+
+	}
 
 	public static void main(String[] args) {
 
@@ -316,23 +291,24 @@ public class Stock {
 
 		FoodItem food5 = new FoodItem("Oreo", 1234, 5, productionDate1, expiryDate1, 9, 13, 50);
 
-		//FoodItem food3 = new FoodItem("dog", 4321, 1, productionDate1, expiryDate1, 0, 20, 50);
+		FoodItem food3 = new FoodItem("dog", 4321, 1, productionDate1, expiryDate1, 14, 17, 50);
 
-	//	FoodItem food4 = new FoodItem("cat", 4321, 1, productionDate1, expiryDate1, 0, 20, 900);
+		// FoodItem food4 = new FoodItem("cat", 4321, 1, productionDate1, expiryDate1,
+		// 0, 20, 900);
 
 		stock.addItem(food1);
 
 		stock.addItem(food2);
 
-	//	stock.addItem(food3);
+		stock.addItem(food3);
 
-	//	stock.addItem(food4);
+		// stock.addItem(food4);
 
 		stock.addItem(food5);
 
 		String itemsList[] = { "Chreios", "dog", "dog", "Chreios", "Oreo", "dog", "cat", "cat" };
 		stock.updateStock(itemsList);
-		
+
 		System.out.println(stock.getTempOfStock());
 
 	}
