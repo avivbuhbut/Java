@@ -74,12 +74,6 @@ public class Matrix {
 
 			for (int j = 0; j < arr[i].length; j++) {
 
-				if (arr[i][j] == 0)
-					negativeArr[i][j] = 255;
-
-				if (arr[i][j] == 255)
-					negativeArr[i][j] = 0;
-				else
 					negativeArr[i][j] = Math.abs(arr[i][j] - 255);
 
 			}
@@ -148,8 +142,8 @@ public class Matrix {
 
 		// Matrix matrix2 = new Matrix(arr[0].length, arr.length);
 
-		// System.out.println(matrix.toStirng());
-		matrix.imageFilterAvarage();
+		System.out.println(matrix.makeNegative().toStirng());
+		//matrix.imageFilterAvarage();
 
 	}
 
