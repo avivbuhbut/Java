@@ -1,10 +1,23 @@
 
+
+/**
+ * 
+ * @author Aviv buhbut
+ * 
+ * I.D: 204445084
+ *
+ */
+
 public class Stock {
 
 	FoodItem[] _stock;
 	private int _noOfItems;
 	final int MAX_ARRAY_lENGTH = 100;
 
+	/*
+	 * 
+	 * constractor - constract a new stock with the max array length
+	 */
 	public Stock() {
 		_stock = new FoodItem[MAX_ARRAY_lENGTH];
 	}
@@ -15,7 +28,7 @@ public class Stock {
 	}
 
 	/**
-	 * 
+	 *  this method checks if an item is exist 
 	 * @return 1 for same name,barcode,expiery date, production date
 	 * @return 0 for same name,barcode but different expirey date and production
 	 *         date
@@ -32,6 +45,13 @@ public class Stock {
 			return false;
 
 	}
+	
+	
+	/**
+	 * this method adds an item 
+	 * @param newitem - adds a new item to the list
+	 * @return true if successful ,fasle otherwise
+	 */
 
 	public boolean addItem(FoodItem newitem) {
 
@@ -76,6 +96,12 @@ public class Stock {
 		return true;
 
 	}
+	
+	
+	/**
+	 * this method removes an item 
+	 * @param index - the index to move the array forward from (overriding a item)
+	 */
 
 	private void moveForward(int index) {
 
@@ -87,6 +113,12 @@ public class Stock {
 
 	}
 
+	
+	/**
+	 * this method finds an item by name
+	 * @param name - the name of the item that needs to be found
+	 * @return the index of the item
+	 */
 	private int findIndexByName(String name) {
 
 		for (int i = 0; i < _noOfItems; i++) {
@@ -99,10 +131,14 @@ public class Stock {
 
 	}
 
+	
+	/**
+	 * this method get the items need to order 
+	 * @param amount - the amount of items want from the stock
+	 * @return a string with a list of the items the are avilable
+	 */
 	public String order(int amount) {
-		// if the product quantity in stock is bigger or equal to the amount to dont add
-		// it to the list
-		// other wise add it
+
 
 		String order = "";
 		for (int i = 0; i < _noOfItems; i++) {
@@ -128,10 +164,10 @@ public class Stock {
 	}
 
 	/**
-	 * returns how many items of the same kind(same name)
 	 * 
-	 * @param index
-	 * @return
+	 * this method returns the emount of equal items in the stock
+	 * @param index to start from 
+	 * @return returns how many items of the same kind(same name)
 	 */
 	private int amountOfItem(int index) {
 
@@ -144,6 +180,12 @@ public class Stock {
 
 		return equalItems;
 	}
+	
+	/**
+	 * this method finds how many item can be transfer into a specific fridge
+	 * @param temp of a specific fridge
+	 * @return how many items can transfer to that fridge
+	 */
 
 	public int howMany(int temp) {
 		int numOfItmToTranfer = 0;
@@ -155,6 +197,12 @@ public class Stock {
 
 		return numOfItmToTranfer;
 	}
+	
+	
+	/**
+	 * this method removes an item from stock after the date
+	 * @param d - all the items after that date will be removed
+	 */
 
 	public void removeAfterDate(Date d) {
 
@@ -169,6 +217,9 @@ public class Stock {
 				i++;
 		}
 	}
+	
+	
+
 
 	@Override
 	public String toString() {
@@ -184,16 +235,34 @@ public class Stock {
 		return _stock[i].toString();
 	}
 
+	
+	/**
+	 * this method finds the most expensive item
+	 * @return the most expensive item
+	 */
 	public int mostExpensive() {
-		int maxPrice = 0;
+		int maxPrice;
+
+		if (_noOfItems > 0)
+			maxPrice = _stock[0].getPrice();
+		else {
+			return 0;
+		}
 
 		for (int i = 0; i < _noOfItems; i++) {
+
+			System.out.println(_stock[i].getPrice());
 			if (_stock[i].getPrice() > maxPrice)
 				maxPrice = _stock[i].getPrice();
 		}
 		return maxPrice;
 	}
 
+	
+	/**
+	 * this method returns how many items are in stock
+	 * @return - the total quantity of the items that are in stock
+	 */
 	public int howManyPieces() {
 
 		int totalQuantity = 0;
@@ -206,6 +275,13 @@ public class Stock {
 			return 0;
 	}
 
+	
+	/**
+	 * this method returns how many items are the same kind
+	 * @param itemsList - array of string contains a list of items 
+	 * @param startIndex - the start index to check from how many are the same
+	 * @return - how many items in the string itemlist are the same
+	 */
 	private int howManyOfSameKind(String[] itemsList, int startIndex) {
 
 		String forPrint = itemsList[startIndex];
@@ -228,6 +304,11 @@ public class Stock {
 		itemsList[startIndex] = "1";
 		return sameItemsSum;
 	}
+	
+	/**
+	 * this method updates stock
+	 * @param itemsList - updating the stock according to the list (array of string)
+	 */
 
 	public void updateStock(String[] itemsList) {
 
@@ -237,7 +318,8 @@ public class Stock {
 			for (int i = 0; i < itemsList.length; i++) {
 				if (_stock[j].getName().equals(itemsList[i])) {
 					int startIndex = i;
-					sameItemsSum += howManyOfSameKind(itemsList, startIndex);
+					sameItemsSum = howManyOfSameKind(itemsList, startIndex);
+					_stock[j].setQuantity(_stock[j].getQuantity() - sameItemsSum);
 				}
 			}
 
@@ -245,13 +327,16 @@ public class Stock {
 
 		}
 	}
+	
+	/**
+	 * this method gets the minimum tempeture needed in stock
+	 * @return gets the minimum tempeture needed for the stock 
+	 */
 
 	public int getTempOfStock() {
 
 		if (_noOfItems == 0)
 			return Integer.MAX_VALUE;
-
-		int flag = 0;
 
 		int minTemp = _stock[0].getMinTemperature();
 
@@ -276,40 +361,4 @@ public class Stock {
 
 	}
 
-	public static void main(String[] args) {
-
-		Stock stock = new Stock();
-		Date productionDate1 = new Date(8, 3, 2001);
-		Date expiryDate1 = new Date(8, 6, 2001);
-
-		Date DIFF_productionDate = new Date(8, 5, 2001);
-		Date DIFF_expiryDate = new Date(8, 10, 2001);
-
-		FoodItem food1 = new FoodItem("Chreios", 1234, 4, DIFF_productionDate, DIFF_expiryDate, 6, 11, 25);
-
-		FoodItem food2 = new FoodItem("Chreios", 1234, 4, productionDate1, expiryDate1, 7, 10, 50);
-
-		FoodItem food5 = new FoodItem("Oreo", 1234, 5, productionDate1, expiryDate1, 9, 13, 50);
-
-		FoodItem food3 = new FoodItem("dog", 4321, 1, productionDate1, expiryDate1, 14, 17, 50);
-
-		// FoodItem food4 = new FoodItem("cat", 4321, 1, productionDate1, expiryDate1,
-		// 0, 20, 900);
-
-		stock.addItem(food1);
-
-		stock.addItem(food2);
-
-		stock.addItem(food3);
-
-		// stock.addItem(food4);
-
-		stock.addItem(food5);
-
-		String itemsList[] = { "Chreios", "dog", "dog", "Chreios", "Oreo", "dog", "cat", "cat" };
-		stock.updateStock(itemsList);
-
-		System.out.println(stock.getTempOfStock());
-
-	}
 }

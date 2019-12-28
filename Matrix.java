@@ -1,4 +1,20 @@
 
+
+/**
+ * 
+ * @author Aviv buhbut
+ * 
+ * I.D: 204445084
+ *
+ */
+
+
+
+/**
+ * 
+ * matrix contractor
+ *
+ */
 public class Matrix {
 
 	int[][] arr;
@@ -18,52 +34,40 @@ public class Matrix {
 		}
 	}
 
-	/*
-	 * Problem -
-	 * 
-	 * returns the adress
-	 * 
+
+	
+	/**
+	 * this method constracts a matrix of zeros 
+	 * @param size1 - size of the 
+	 * @param size2
 	 */
 	public Matrix(int size1, int size2) {
-		arr = new int[size1][size2];
+		
+	this.arr= new int [size1][size2] ;
+	
+	
 
-		for (int i = 0; i < arr.length; i++) {
+		for (int i = 0; i < this.arr.length; i++) {
 
-			for (int j = 0; j < arr[i].length; j++) {
+			for (int j = 0; j < this.arr[i].length; j++) {
 
-				arr[i][j] = 0;
+				this.arr[i][j] = 0;
+			
 
 			}
 
 		}
+		
+		
 
 	}
 
-	public String toStirng() {
 
-		int j = 0;
 
-		String retString = "";
-
-		for (int i = 0; i < arr.length;) {
-
-			if (j == arr[i].length) {
-				retString += "\n";
-				j = 0;
-				i++;
-
-			}
-
-			if (i < arr.length)
-				retString += arr[i][j] + "\t";
-
-			j++;
-		}
-
-		return retString;
-
-	}
-
+/**
+ * this method creates the negative matrix of the current matrix
+ * @return a negative matrix
+ */
 	public Matrix makeNegative() {
 
 		int negativeArr[][] = new int[this.arr.length][this.arr[0].length];
@@ -84,7 +88,11 @@ public class Matrix {
 
 	}
 
-	public Matrix imageFilterAvarage() {
+	/**
+	 * this method creates avarages of all the near cells of a current cell in the matrix
+	 * @return a matrix that is after a filter of avarage
+	 */
+	public Matrix imageFilterAverage() {
 
 		int imageFilterAvarageArr[][] = new int[this.arr.length][this.arr[0].length];
 
@@ -141,6 +149,11 @@ public class Matrix {
 
 	}
 
+	
+	/**
+	 * this method rotates the matrix clock wise
+	 * @return the matrix rotated clock wise
+	 */
 	public Matrix rotateClockwise() {
 
 		int rotateClockwise[][] = new int[arr[0].length][arr.length];
@@ -175,44 +188,57 @@ public class Matrix {
 		return rotateMatrixClockwise;
 	}
 	
-	
+	/**
+	 * this method rotates the matrix counter clock wise
+	 * @return the matrix rotated counter clock wise
+	 */
 	public Matrix rotateCounterClockwise() {
 		
-		
-		
-		int rotateClockwise[][] = new int[arr[0].length][arr.length];
-
-		int r = 0;
-		int c = 0;
-
-		for (int j = 0; j < arr.length; j++) {
-
-			for (int i = arr.length - 1; i <= 0; i--) {
-
+	
 		
 
+			int totalRowsOfRotatedMatrix = arr[0].length; // Total columns of Original Matrix
+			int totalColsOfRotatedMatrix = arr.length; // Total rows of Original Matrix
+
+			int[][] rotatedMatrix = new int[totalRowsOfRotatedMatrix][totalColsOfRotatedMatrix];
+
+			for (int i = 0; i < arr.length; i++) {
+				for (int j = 0; j < arr[0].length; j++) {
+					rotatedMatrix[(totalRowsOfRotatedMatrix - 1) - j][i] = arr[i][j];
+				}
 			}
+			
+			Matrix counterClockMatrix = new Matrix(rotatedMatrix);
+			return counterClockMatrix;
+		}
+		
 
+	
+     @Override
+     public String toString()
+     {
+    	 int  j=0;
+    	 String retString = "";
+
+ 		for (int i = 0; i < arr.length;) {
+
+ 			if (j == arr[i].length) {
+ 				retString += "\n";
+ 				j = 0;
+ 				i++;
+
+ 			}
+ 			if ( i < arr.length)
+				retString += arr[i][j] + "\t";
+ 		
+			j++;
 		}
 
-		Matrix rotateMatrixClockwise = new Matrix(rotateClockwise);
-
-		return rotateMatrixClockwise;
-	}
-	
-	
-	
-	
-
-	public static void main(String[] args) {
-
-		int arr[][] = { { 19, 124, 28, 35 }, { 115, 22, 25, 230 }, { 19, 21, 22, 249 }, { 0, 16, 9, 232 },
-				{ 62, 35, 10, 116 }, };
-
-		Matrix matrix = new Matrix(arr);
-
-		System.out.println(matrix.rotateCounterClockwise().toStirng());
-
-	}
+ 			
+           return retString;
+     }
+     
+     
+    
 
 }
